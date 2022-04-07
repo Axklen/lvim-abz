@@ -34,6 +34,7 @@ M.config = function()
     shadow_guibg = "Black", -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
   }
   sig.setup(cfg)
+  sig.on_attach(cfg)
 end
 
 return M

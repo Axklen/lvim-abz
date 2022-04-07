@@ -406,7 +406,7 @@ M.config = function()
       if not vim.bo.readonly or not vim.bo.modifiable then
         return ""
       end
-      return "" -- """
+      return "" -- """
     end,
     color = { fg = colors.red },
   }
@@ -522,6 +522,9 @@ M.config = function()
     icons_enabled = true,
     color = { fg = colors.green, gui = "bold" },
     cond = conditions.hide_in_width,
+    symbols = {
+      unix = "", -- f303
+    },
   }
 
   ins_right {

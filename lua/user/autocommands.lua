@@ -14,6 +14,7 @@ augroup END
   end
 
   vim.cmd [[
+autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 " disable syntax highlighting in big files
 function! DisableSyntaxTreesitter()
     echo("Big file, disabling syntax, treesitter and folding")
@@ -51,6 +52,9 @@ augroup END
   local codelens_viewer = "lua require('nvim-lightbulb').update_lightbulb()"
   local user = os.getenv "USER"
   if user and user == "abz" then
+    codelens_viewer = "lua require('user.codelens').show_line_sign()"
+  end
+  if user and user == "axklen" then
     codelens_viewer = "lua require('user.codelens').show_line_sign()"
   end
 
