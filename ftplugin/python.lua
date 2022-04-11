@@ -22,6 +22,7 @@ local opts = {
         autoSearchPaths = true,
         diagnosticMode = "workspace",
         useLibraryCodeForTypes = true,
+        autoImportCompletions = true,
       },
     },
   },
@@ -35,3 +36,8 @@ if server_available then
 end
 
 require("lvim.lsp.manager").setup("pyright", opts)
+
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  { command = "flake8" },
+}

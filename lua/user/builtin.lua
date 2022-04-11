@@ -92,6 +92,7 @@ M.config = function()
   -- CMP
   -- =========================================
   lvim.builtin.cmp.sources = {
+    { name = "copilot" },
     { name = "nvim_lsp" },
     { name = "cmp_tabnine", max_item_count = 3 },
     { name = "buffer", max_item_count = 5, keyword_length = 5 },

@@ -244,6 +244,11 @@ M.config = function()
       },
     }
   end
+  dap.adapters.python = {
+    type = "executable",
+    command = "/usr/bin/python",
+    args = { "-m", "debugpy.adapter" },
+  }
   dap.configurations.python = dap.configurations.python or {}
   table.insert(dap.configurations.python, {
     type = "python",
@@ -261,6 +266,14 @@ M.config = function()
       end
       path = vim.fn.input("Python path: ", path or "", "file")
       return path ~= "" and vim.fn.expand(path) or nil
+      -- local cwd = vim.fn.getcwd()
+      -- if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
+      --   return cwd .. "/venv/bin/python"
+      -- elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+      --   return cwd .. "/.venv/bin/python"
+      -- else
+      --   return "/usr/bin/python"
+      -- end
     end,
     args = function()
       local args = {}
