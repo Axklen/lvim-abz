@@ -1,4 +1,5 @@
 -- Neovim
+-- based on "abzcoding/lvim"
 -- =========================================
 lvim.format_on_save = false
 lvim.leader = " "
@@ -50,20 +51,6 @@ lvim.builtin.editorconfig = { active = true } -- enable/disable editorconfig
 lvim.builtin.global_statusline = false -- set true to use global statusline
 
 local user = os.getenv "USER"
-if user and user == "abz" then
-  lvim.builtin.nvim_web_devicons = { active = false }
-  lvim.builtin.sell_your_soul_to_devil = true
-  lvim.lsp.document_highlight = false
-  lvim.builtin.csv_support = true
-  lvim.builtin.async_tasks.active = true
-  lvim.builtin.dap.active = true
-  lvim.builtin.sql_integration.active = true
-  vim.g.instant_username = user
-  lvim.builtin.collaborative_editing.active = true
-  lvim.builtin.file_browser.active = true
-  lvim.builtin.global_statusline = true
-  require("user.prose").config() -- setup prosemd-lsp for my local use
-end
 if user and user == "axklen" then
   lvim.builtin.nvim_web_devicons = { active = false }
   lvim.builtin.sell_your_soul_to_devil = true
@@ -78,7 +65,7 @@ if user and user == "axklen" then
   lvim.builtin.global_statusline = true
   -- require("user.prose").config() -- setup prosemd-lsp for my local use
 end
-lvim.lsp.diagnostics.virtual_text = true -- remove this line if you want to see inline errors
+lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
 lvim.builtin.latex = {
   view_method = "zathura", -- change to zathura if you are on linux
   preview_exec = "/usr/bin/zathura", -- change this to zathura as well

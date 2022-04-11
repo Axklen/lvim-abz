@@ -1,8 +1,9 @@
 # Bloated LunarVim
 
-Do not use as is, use it as a source of inspiration.
+most is based on [abzcoding/lvim](https://github.com/abzcoding/lvim)
+atm it is mostly a fork
 
-I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly 😅
+Do not use as is, use it as a source of inspiration.
 
 ![141789968-ed61958c-9154-4774-b2e2-dfabe48d9660](https://user-images.githubusercontent.com/10992695/141791560-5062246a-056c-4a73-afa7-3152e6ad396e.jpg)
 
@@ -39,6 +40,7 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
   - [Plugin: Trouble](#plugin-trouble)
   - [Plugin: Ultest](#plugin-ultest)
   - [Plugin: Spectre](#plugin-spectre)
+  - [Plugin: Copilot](#plugin-copilot)
 
 <!-- vim-markdown-toc -->
 </details>
@@ -649,6 +651,16 @@ Note that,
 | <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>p</kbd> |  𝐍   | replace word in project        |
 | <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>w</kbd> |  𝐍   | replace visually selected word |
 | <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>f</kbd> |  𝐍   | replace word in current buffer |
+
+### Plugin: Copilot
+
+| Key                          | Mode | Action                              |
+| ---------------------------- | :--: | ----------------------------------- |
+| <kbd>Ctrl</kbd>+<kbd>h</kbd> |  𝐈   | `copilot#Accept("<CR>")`            |
+| <kbd>Ctrl</kbd>+<kbd>e</kbd> |  𝐈   | close cmp menu                     |
+| <kbd>Alt</kbd>+<kbd>]</kbd>  |  𝐈   | `<Plug>(copilot-next)`              |
+| <kbd>Alt</kbd>+<kbd>[</kbd>  |  𝐈   | `<Plug>(copilot-previous)`          |
+| <kbd>Alt</kbd>+<kbd>\</kbd>  |  𝐈   | `"<Cmd>vertical Copilot panel<CR>"` |
 
 </details>
 
