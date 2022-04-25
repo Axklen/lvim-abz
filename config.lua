@@ -12,7 +12,7 @@ require("user.neovim").config()
 
 -- Customization
 -- =========================================
-lvim.builtin.sell_your_soul_to_devil = false -- if you want microsoft to abuse your soul
+lvim.builtin.sell_your_soul_to_devil = { active = false, prada = false } -- if you want microsoft to abuse your soul
 lvim.builtin.lastplace = { active = false } -- change to false if you are jumping to future
 lvim.builtin.tabnine = { active = true } -- change to false if you don't like tabnine
 lvim.builtin.persistence = { active = true } -- change to false if you don't want persistence
@@ -20,14 +20,13 @@ lvim.builtin.presence = { active = false } -- change to true if you want discord
 lvim.builtin.orgmode = { active = false } -- change to true if you want orgmode.nvim
 lvim.builtin.dap.active = false -- change this to enable/disable debugging
 lvim.builtin.fancy_statusline = { active = true } -- enable/disable fancy statusline
-lvim.builtin.fancy_wild_menu = { active = false } -- enable/disable use wilder.nvim
-lvim.builtin.fancy_rename = { active = true } -- enable/disable custom rename
+lvim.builtin.fancy_wild_menu = { active = false } -- enable/disable cmp-cmdline
 lvim.builtin.fancy_diff = { active = false } -- enable/disable fancier git diff
 lvim.builtin.lua_dev = { active = true } -- change this to enable/disable folke/lua_dev
 lvim.builtin.test_runner = { active = true } -- change this to enable/disable vim-test, ultest
 lvim.builtin.cheat = { active = true } -- enable cheat.sh integration
 lvim.builtin.sql_integration = { active = false } -- use sql integration
-lvim.builtin.neoscroll = { active = true } -- smooth scrolling
+lvim.builtin.smooth_scroll = "cinnamon" -- for smoth scrolling, can be "cinnamon", "neoscroll" or ""
 lvim.builtin.neoclip = { active = true, enable_persistent_history = false }
 lvim.builtin.nonumber_unfocus = false -- diffrentiate between focused and non focused windows
 lvim.builtin.harpoon = { active = true } -- use the harpoon plugin
@@ -49,12 +48,14 @@ lvim.builtin.sniprun = { active = false } -- enable/disable sniprun
 lvim.builtin.tag_provider = "symbols-outline" -- change this to use different tag providers ( symbols-outline or vista )
 lvim.builtin.editorconfig = { active = true } -- enable/disable editorconfig
 lvim.builtin.global_statusline = false -- set true to use global statusline
+lvim.builtin.dressing = { active = false } -- enable to override vim.ui.input and vim.ui.select with telescope
+lvim.builtin.refactoring = { active = false } -- enable to use refactoring.nvim code_actions
 
 local user = os.getenv "USER"
 if user and user == "axklen" then
   lvim.builtin.nvim_web_devicons = { active = false }
-  lvim.builtin.sell_your_soul_to_devil = true
-  lvim.lsp.document_highlight = true
+  lvim.builtin.sell_your_soul_to_devil = { active = true, prada = false }
+  lvim.lsp.document_highlight = false
   lvim.builtin.csv_support = true
   lvim.builtin.async_tasks.active = true
   lvim.builtin.dap.active = true
@@ -63,7 +64,10 @@ if user and user == "axklen" then
   -- lvim.builtin.collaborative_editing.active = true
   lvim.builtin.file_browser.active = true
   lvim.builtin.global_statusline = true
-  -- require("user.prose").config() -- setup prosemd-lsp for my local use
+  lvim.builtin.dressing.active = true
+  lvim.builtin.fancy_wild_menu.active = true
+  lvim.builtin.refactoring.active = true
+  --require("user.prose").config() -- setup prosemd-lsp for my local use
 end
 lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
 lvim.builtin.latex = {
@@ -72,7 +76,7 @@ lvim.builtin.latex = {
   rtl_support = true, -- if you want to use xelatex, it's a bit slower but works very well for RTL langs
 }
 lvim.builtin.notify.active = true
--- lvim.lsp.automatic_servers_installation = false
+lvim.lsp.automatic_servers_installation = true
 if lvim.builtin.cursorline.active then
   lvim.lsp.document_highlight = false
 end
@@ -93,7 +97,7 @@ end
 
 -- Language Specific
 -- =========================================
-vim.list_extend(lvim.lsp.override, {
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, {
   "clangd",
   "dockerls",
   "gopls",

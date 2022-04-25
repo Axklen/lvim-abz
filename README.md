@@ -75,8 +75,6 @@ You can change this in [plugins.lua](./lua/user/plugins.lua) and [theme.lua](./l
   - `lvim.builtin.sell_your_soul_to_devil = true`
 - I use a custom `lualine` disable it if you don't like it
   - `lvim.builtin.fancy_statusline = { active = false }`
-- You can use the fancy wild menu if you want, make sure to do a `:UpdateRemotePlugins`
-  - `lvim.builtin.fancy_wild_menu = { active = true }`
 - You can use the `diffview` plugin instead of normal `gitsigns diff`
   - `lvim.builtin.fancy_diff = { active = true }`
 - if you want to use debugging, change the following line to true, also [install codelldb](<https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-(via--codelldb)>):
@@ -388,12 +386,12 @@ _Symbols Outline_
 - [fidget](https://github.com/j-hui/fidget.nvim)
 - [clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim)
 - [crates.nvim](https://github.com/Saecki/crates.nvim)
+- [command_center](https://github.com/FeiyouG/command_center.nvim)
 
 ### Optional Plugins
 
 - [Hop](https://github.com/phaazon/hop.nvim)
 - [Lightspeed](https://github.com/ggandor/lightspeed.nvim)
-- [wilder.nvim](https://github.com/gelguy/wilder.nvim)
 - [nvim-lastplace](https://github.com/ethanholz/nvim-lastplace)
 - [Tabnine](https://github.com/tzachar/compe-tabnine)
 - [Persistence](https://github.com/folke/persistence.nvim)
@@ -410,7 +408,6 @@ _Symbols Outline_
 - [Neoscroll](https://github.com/karb94/neoscroll.nvim)
 - [Copilot](https://github.com/github/copilot.vim)
 - [Harpoon](https://github.com/ThePrimeagen/harpoon)
-- [Renamer](https://github.com/filipdutescu/renamer.nvim)
 - [vim-log-highlighting](https://github.com/mtdl9/vim-log-highlighting)
 - [nvim-cursorline](https://github.com/yamatsum/nvim-cursorline)
 - [nvim-hlslens](https://github.com/kevinhwang91/nvim-hlslens)
@@ -423,6 +420,7 @@ _Symbols Outline_
 - [SnipRun](https://github.com/michaelb/sniprun)
 - [Vista](https://github.com/liuchengxu/vista.vim)
 - [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
+- [dressing.nvim](https://github.com/stevearc/dressing.nvim)
 
 </details>
 
@@ -449,7 +447,6 @@ _Symbols Outline_
     - [theme.lua](./lua/user/theme.lua) - customized themes
 - [config.lua](./config.lua) - Main customization point for settings
 - [snippets/](./snippets) - Personal code snippets
-- [vimscript/](./vimscript) - wilder settings
 
 </details>
 
@@ -469,21 +466,21 @@ Note that,
 
 ### UI
 
-| Key                           | Mode | Action              | Plugin or Mapping                             |
-| ----------------------------- | :--: | ------------------- | --------------------------------------------- |
-| <kbd>Space</kbd>+<kbd>e</kbd> |  𝐍   | Open file tree      | <small>NvimTree</small>                       |
-| <kbd>Space</kbd>+<kbd>o</kbd> |  𝐍   | Open symbols        | <small>Symbols-outline</small>                |
-| <kbd>Space</kbd>+<kbd>f</kbd> |  𝐍   | Open file finder    | <small>Telescope</small>                      |
-| <kbd>Space</kbd>+<kbd>h</kbd> |  𝐍   | Remove highlight    | <small>`nohlsearch<`</small>                  |
-| <kbd>Space</kbd>+<kbd>/</kbd> |  𝐍   | Toggle comment      | <small>Comment.nvim</small>                   |
-| <kbd>Space</kbd>+<kbd>?</kbd> |  𝐍   | Open cheats         | <small>cheat.sh</small>                       |
-| <kbd>Space</kbd>+<kbd>'</kbd> |  𝐍   | Open marks          | <small>which-key marks</small>                |
-| <kbd>Space</kbd>+<kbd>z</kbd> |  𝐍   | Zen mode            | <small>zen-mode.nvim</small>                  |
-| <kbd>Space</kbd>+<kbd>P</kbd> |  𝐍   | Projects            | <small>project.nvim</small>                   |
-| <kbd>Ctrl</kbd>+<kbd>\</kbd>  |  𝐈   | Open terminal       | <small>toggleterm.nvim</small>                |
-| <kbd>Ctrl</kbd>+<kbd>s</kbd>  |  𝐈   | Show signature help | <small>`vim.lsp.buf.signature_help()`</small> |
-| <kbd>Alt</kbd>+<kbd>s</kbd>   |  𝐈   | Snippet selection   | <small>Telescope luasnip extension</small>    |
-| <kbd>Space</kbd>+<kbd>C</kbd> |  𝐍   | Command Palette     | <small>Telescope command_palette</small>      |
+| Key                                                           | Mode | Action              | Plugin or Mapping                             |
+| ------------------------------------------------------------- | :--: | ------------------- | --------------------------------------------- |
+| <kbd>Space</kbd>+<kbd>e</kbd>                                 |  𝐍   | Open file tree      | <small>NvimTree</small>                       |
+| <kbd>Space</kbd>+<kbd>o</kbd>                                 |  𝐍   | Open symbols        | <small>Symbols-outline</small>                |
+| <kbd>Space</kbd>+<kbd>f</kbd>                                 |  𝐍   | Open file finder    | <small>Telescope</small>                      |
+| <kbd>Space</kbd>+<kbd>h</kbd>                                 |  𝐍   | Remove highlight    | <small>`nohlsearch<`</small>                  |
+| <kbd>Space</kbd>+<kbd>/</kbd>                                 |  𝐍   | Toggle comment      | <small>Comment.nvim</small>                   |
+| <kbd>Space</kbd>+<kbd>?</kbd>                                 |  𝐍   | Open cheats         | <small>cheat.sh</small>                       |
+| <kbd>Space</kbd>+<kbd>'</kbd>                                 |  𝐍   | Open marks          | <small>which-key marks</small>                |
+| <kbd>Space</kbd>+<kbd>z</kbd>                                 |  𝐍   | Zen mode            | <small>zen-mode.nvim</small>                  |
+| <kbd>Space</kbd>+<kbd>P</kbd>                                 |  𝐍   | Projects            | <small>project.nvim</small>                   |
+| <kbd>Ctrl</kbd>+<kbd>\</kbd>                                  |  𝐈   | Open terminal       | <small>toggleterm.nvim</small>                |
+| <kbd>Ctrl</kbd>+<kbd>s</kbd>                                  |  𝐈   | Show signature help | <small>`vim.lsp.buf.signature_help()`</small> |
+| <kbd>Alt</kbd>+<kbd>s</kbd>                                   |  𝐈   | Snippet selection   | <small>Telescope luasnip extension</small>    |
+| <kbd>Space</kbd>+<kbd>C</kbd> or <kbd>Ctrl</kbd>+<kbd>P</kbd> |  𝐍   | Command Palette     | <small>Telescope command_center</small>       |
 
 ### Motion
 
@@ -657,7 +654,7 @@ Note that,
 | Key                          | Mode | Action                              |
 | ---------------------------- | :--: | ----------------------------------- |
 | <kbd>Ctrl</kbd>+<kbd>h</kbd> |  𝐈   | `copilot#Accept("<CR>")`            |
-| <kbd>Ctrl</kbd>+<kbd>e</kbd> |  𝐈   | close cmp menu                     |
+| <kbd>Ctrl</kbd>+<kbd>e</kbd> |  𝐈   | close cmp menu                      |
 | <kbd>Alt</kbd>+<kbd>]</kbd>  |  𝐈   | `<Plug>(copilot-next)`              |
 | <kbd>Alt</kbd>+<kbd>[</kbd>  |  𝐈   | `<Plug>(copilot-previous)`          |
 | <kbd>Alt</kbd>+<kbd>\</kbd>  |  𝐈   | `"<Cmd>vertical Copilot panel<CR>"` |
