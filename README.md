@@ -652,11 +652,11 @@ Note that,
 
 | Key                          | Mode | Action                              |
 | ---------------------------- | :--: | ----------------------------------- |
-| <kbd>F2</kbd> |  𝐈+𝐍   | `copilot#enable("<CR>")`            |
-| <kbd>F3</kbd> |  𝐈+𝐍   | `copilot#disable("<CR>")`            |
+| <kbd>F2</kbd>                | 𝐈+𝐍  | `"<Cmd>copilot enable<CR>"`           |
+| <kbd>F3</kbd>                | 𝐈+𝐍  | `"<Cmd>copilot enable<CR>"`           |
 | <kbd>Ctrl</kbd>+<kbd>h</kbd> |  𝐈   | `copilot#Accept("<CR>")`            |
 | <kbd>Ctrl</kbd>+<kbd>e</kbd> |  𝐈   | close cmp menu                      |
-| <kbd>Ctrl</kbd>+<kbd>]</kbd> |  𝐈   | `<Plug>(copilot-dismiss)`              |
+| <kbd>Ctrl</kbd>+<kbd>]</kbd> |  𝐈   | `<Plug>(copilot-dismiss)`           |
 | <kbd>Alt</kbd>+<kbd>]</kbd>  |  𝐈   | `<Plug>(copilot-next)`              |
 | <kbd>Alt</kbd>+<kbd>[</kbd>  |  𝐈   | `<Plug>(copilot-previous)`          |
 | <kbd>Alt</kbd>+<kbd>\</kbd>  |  𝐈   | `"<Cmd>vertical Copilot panel<CR>"` |
