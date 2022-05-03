@@ -39,7 +39,7 @@ M.config = function()
 
   local heading = {
     type = "text",
-    val = "┌─ " .. kind.icons.calendar .. " Today is  " .. date .. " ─┐",
+    val = "┌─ " .. kind.icons.calendar .. " Today is " .. date .. " ─┐",
     opts = {
       position = "center",
       hl = "String",

@@ -65,13 +65,14 @@ You can change this in [plugins.lua](./lua/user/plugins.lua) and [theme.lua](./l
     <small><i>(🔎 Click to expand/collapse)</i></small>
   </summary>
 
-- I'm on the `rolling` branch of LunarVim and i'm using `neovim 0.7 head`
+- I'm on the `rolling` branch of LunarVim and i'm using `neovim 0.8 head`
 - Do not use as is, too much bloated! Also do not use on a potato PC!!
 - i have a auto command to disable syntax,etc when you open files larger than `1MB`
 - if you don't want to use `harpoon`, disable it
   - `lvim.builtin.harpoon = { active = false }`
 - if you want to try out GitHub copilot, change the following
-  - `lvim.builtin.sell_your_soul_to_devil = true`
+  - `lvim.builtin.sell_your_soul_to_devil = { active = true, prada = false }`
+  - in case you want to use `cmp-copilot`, set `prada=true` after copilot installation
 - I use a custom `lualine` disable it if you don't like it
   - `lvim.builtin.fancy_statusline = { active = false }`
 - You can use the `diffview` plugin instead of normal `gitsigns diff`
@@ -89,7 +90,7 @@ You can change this in [plugins.lua](./lua/user/plugins.lua) and [theme.lua](./l
 - if you don't want the SQL integration, disable it
   - `lvim.builtin.sql_integration = { active = false }`
 - if you don't like smooth scrolling, disable it
-  - `lvim.builtin.neoscroll = { active = false }`
+  - `lvim.builtin.smooth_scroll= ""`
 - if you want an obvious focused window, and you don't get seizures from it
   - `lvim.builtin.nonumber_unfocus = true`
 - choose between [hop](https://github.com/phaazon/hop.nvim) and [lightspeed](https://github.com/ggandor/lightspeed.nvim) as your favorite motion provider
@@ -157,7 +158,7 @@ git clone git@github.com:microsoft/java-debug.git ~/.config/lvim/.java-debug
 cd ~/.config/lvim/.java-debug/
 ./mvnw clean install
 git clone git@github.com:microsoft/vscode-java-test.git ~/.config/lvim/.vscode-java-test
-cd ~/.config/lvim/vscode-java-test
+cd ~/.config/lvim/.vscode-java-test
 npm install
 npm run build-plugin
 ```
@@ -377,7 +378,7 @@ _Symbols Outline_
 - [colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
 - [Neogen](https://github.com/danymat/neogen)
 - [Vimtex](https://github.com/lervag/vimtex)
-- [nvim-lsp-ts-utils](https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils)
+- [typescript.nvim](https://github.com/jose-elias-alvarez/typescript.nvim)
 - [flutter-tools.nvim](https://github.com/akinsho/flutter-tools.nvim)
 - [NeoClip](https://github.com/AckslD/nvim-neoclip.lua)
 - [Telescope live grep raw](nvim-telescope/telescope-live-grep-raw.nvim)
@@ -386,12 +387,13 @@ _Symbols Outline_
 - [clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim)
 - [crates.nvim](https://github.com/Saecki/crates.nvim)
 - [command_center](https://github.com/FeiyouG/command_center.nvim)
+- [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim)
 
 ### Optional Plugins
 
 - [Hop](https://github.com/phaazon/hop.nvim)
 - [Lightspeed](https://github.com/ggandor/lightspeed.nvim)
-- [nvim-lastplace](https://github.com/ethanholz/nvim-lastplace)
+- [remember.nvim](https://github.com/vladdoster/remember.nvim)
 - [Tabnine](https://github.com/tzachar/compe-tabnine)
 - [Persistence](https://github.com/folke/persistence.nvim)
 - [Presence](https://github.com/andweeb/presence.nvim)
@@ -405,6 +407,7 @@ _Symbols Outline_
 - [vim-dadbod-completion](https://github.com/kristijanhusak/vim-dadbod-completion)
 - [vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui)
 - [Neoscroll](https://github.com/karb94/neoscroll.nvim)
+- [Cinnamon scroll](https://github.com/declancm/cinnamon.nvim)
 - [Copilot](https://github.com/github/copilot.vim)
 - [Harpoon](https://github.com/ThePrimeagen/harpoon)
 - [vim-log-highlighting](https://github.com/mtdl9/vim-log-highlighting)
