@@ -29,15 +29,4 @@ local opts = {
   single_file_support = true,
 }
 
-local servers = require "nvim-lsp-installer.servers"
-local server_available, requested_server = servers.get_server "pyright"
-if server_available then
-  opts.cmd_env = requested_server:get_default_options().cmd_env
-end
-
 require("lvim.lsp.manager").setup("pyright", opts)
-
-local linters = require "lvim.lsp.null-ls.linters"
-linters.setup {
-  { command = "flake8" },
-}
