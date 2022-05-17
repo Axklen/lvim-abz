@@ -7,6 +7,12 @@ M.config = function()
   end
   lvim.plugins = {
     {
+      "ur4ltz/surround.nvim",
+      config = function()
+        require("surround").setup { mappings_style = "sandwich" }
+      end,
+    },
+    {
       "rose-pine/neovim",
       as = "rose-pine",
       config = function()
