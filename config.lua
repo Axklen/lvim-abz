@@ -1,6 +1,7 @@
 -- Neovim
 -- based on "abzcoding/lvim"
 -- =========================================
+lvim.transparent_window = true
 lvim.format_on_save = false
 lvim.leader = " "
 lvim.colorscheme = "pablo"
@@ -38,6 +39,7 @@ lvim.builtin.hlslens = { active = false } -- enable/disable hlslens
 lvim.builtin.csv_support = false -- enable/disable csv support
 lvim.builtin.sidebar = { active = false } -- enable/disable sidebar
 lvim.builtin.async_tasks = { active = false } -- enable/disable async tasks
+lvim.builtin.winbar_provider = "treesitter" -- can be "filename" or "treesitter" or ""
 lvim.builtin.metals = {
   active = false, -- enable/disable nvim-metals for scala development
   fallbackScalaVersion = "2.13.7",
@@ -54,6 +56,7 @@ lvim.builtin.refactoring = { active = false } -- enable to use refactoring.nvim 
 
 local user = os.getenv "USER"
 if user and user == "axklen" then
+  -- vim.opt.cmdheight = 0 -- WARN: only works with the latest neovim
   lvim.builtin.custom_web_devicons = true
   lvim.use_icons = false -- only set to false if you know what are you doing
   lvim.builtin.sell_your_soul_to_devil = { active = true, prada = false }
