@@ -1,10 +1,10 @@
 -- Neovim
 -- based on "abzcoding/lvim"
 -- =========================================
-lvim.transparent_window = true
 lvim.format_on_save = false
 lvim.leader = " "
-lvim.colorscheme = "pablo"
+lvim.colorscheme = "kanagawa" -- set to a custom theme => tokyonight, rose_pine, catppuccin, kanagawa
+lvim.builtin.time_based_themes = true -- set false to use your own configured theme
 lvim.debug = false
 vim.lsp.set_log_level "warn"
 lvim.log.level = "warn"
@@ -19,10 +19,10 @@ lvim.builtin.tabnine = { active = true } -- change to false if you don't like ta
 lvim.builtin.persistence = { active = true } -- change to false if you don't want persistence
 lvim.builtin.presence = { active = false } -- change to true if you want discord presence
 lvim.builtin.orgmode = { active = false } -- change to true if you want orgmode.nvim
-lvim.builtin.dap.active = false -- change this to enable/disable debugging
+lvim.builtin.dap.active = true -- change this to enable/disable debugging
 lvim.builtin.fancy_statusline = { active = true } -- enable/disable fancy statusline
 lvim.builtin.fancy_wild_menu = { active = false } -- enable/disable cmp-cmdline
-lvim.builtin.fancy_diff = { active = false } -- enable/disable fancier git diff
+lvim.builtin.fancy_diff = { active = true } -- enable/disable fancier git diff
 lvim.builtin.lua_dev = { active = true } -- change this to enable/disable folke/lua_dev
 lvim.builtin.test_runner = { active = true } -- change this to enable/disable vim-test, ultest
 lvim.builtin.cheat = { active = true } -- enable cheat.sh integration
@@ -35,38 +35,44 @@ lvim.builtin.harpoon = { active = true } -- use the harpoon plugin
 lvim.builtin.remote_dev = { active = false } -- enable/disable remote development
 lvim.builtin.cursorline = { active = false } -- use a bit fancier cursorline
 lvim.builtin.motion_provider = "hop" -- change this to use different motion providers ( hop or lightspeed )
-lvim.builtin.hlslens = { active = false } -- enable/disable hlslens
+lvim.builtin.hlslens = { active = true } -- enable/disable hlslens
 lvim.builtin.csv_support = false -- enable/disable csv support
 lvim.builtin.sidebar = { active = false } -- enable/disable sidebar
-lvim.builtin.async_tasks = { active = false } -- enable/disable async tasks
-lvim.builtin.winbar_provider = "treesitter" -- can be "filename" or "treesitter" or ""
+lvim.builtin.async_tasks = { active = true } -- enable/disable async tasks
+lvim.builtin.winbar_provider = "filename" -- can be "filename" or "treesitter" or ""
 lvim.builtin.metals = {
   active = false, -- enable/disable nvim-metals for scala development
   fallbackScalaVersion = "2.13.7",
   serverVersion = "0.10.9+271-a8bb69f6-SNAPSHOT",
 }
 lvim.builtin.collaborative_editing = { active = false } -- enable/disable collaborative editing
-lvim.builtin.file_browser = { active = false } -- enable/disable telescope file browser
-lvim.builtin.sniprun = { active = false } -- enable/disable sniprun
+lvim.builtin.file_browser = { active = true } -- enable/disable telescope file browser
+lvim.builtin.sniprun = { active = true } -- enable/disable sniprun
 lvim.builtin.tag_provider = "symbols-outline" -- change this to use different tag providers ( symbols-outline or vista )
 lvim.builtin.editorconfig = { active = true } -- enable/disable editorconfig
 lvim.builtin.global_statusline = false -- set true to use global statusline
 lvim.builtin.dressing = { active = false } -- enable to override vim.ui.input and vim.ui.select with telescope
-lvim.builtin.refactoring = { active = false } -- enable to use refactoring.nvim code_actions
+lvim.builtin.refactoring = { active = true } -- enable to use refactoring.nvim code_actions
+lvim.builtin.tmux_lualine = false -- use vim-tpipeline to integrate lualine and tmux
 
 local user = os.getenv "USER"
 if user and user == "axklen" then
-  -- vim.opt.cmdheight = 0 -- WARN: only works with the latest neovim
+ vim.opt.cmdheight = 1 -- WARN: only works with the latest neovim
+ lvim.builtin.tmux_lualine = false
+  if lvim.builtin.tmux_lualine then
+    vim.opt.cmdheight = 1 -- WARN: =0 only works with the latest neovim
+    vim.g.tpipeline_cursormoved = 1
+  end
   lvim.builtin.custom_web_devicons = true
   lvim.use_icons = false -- only set to false if you know what are you doing
-  lvim.builtin.sell_your_soul_to_devil = { active = true, prada = false }
+  lvim.builtin.sell_your_soul_to_devil = { active = false, prada = false }
   lvim.lsp.document_highlight = false
   lvim.builtin.csv_support = true
   lvim.builtin.async_tasks.active = true
   lvim.builtin.dap.active = true
   lvim.builtin.sql_integration.active = true
   vim.g.instant_username = user
-  -- lvim.builtin.collaborative_editing.active = true
+  lvim.builtin.collaborative_editing.active = false
   lvim.builtin.file_browser.active = true
   lvim.builtin.global_statusline = true
   lvim.builtin.dressing.active = true
@@ -75,11 +81,6 @@ if user and user == "axklen" then
   require("lvim.lsp.manager").setup("prosemd_lsp", {})
 end
 lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
-lvim.builtin.latex = {
-  view_method = "zathura", -- change to zathura if you are on linux
-  preview_exec = "/usr/bin/zathura", -- change this to zathura as well
-  rtl_support = true, -- if you want to use xelatex, it's a bit slower but works very well for RTL langs
-}
 lvim.builtin.notify.active = true
 lvim.lsp.automatic_servers_installation = true
 if lvim.builtin.cursorline.active then
@@ -116,6 +117,11 @@ vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, {
   "tsserver",
   "yamlls",
 })
+-- emmet
+lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(s)
+        return s ~= "emmet_ls"
+end, lvim.lsp.automatic_configuration.skipped_servers)
+
 require("user.null_ls").config()
 
 -- Additional Plugins

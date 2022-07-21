@@ -73,13 +73,33 @@ M.catppuccin = function()
     transparent_background = lvim.transparent_window,
     term_colors = false,
     styles = {
-      comments = "NONE",
-      keywords = "italic",
+      comments = {},
+      keywords = { "italic" },
+    },
+    dim_inactive = {
+      enabled = lvim.builtin.global_statusline,
+      shade = "dark",
+      percentage = 0.15,
     },
     integrations = {
       lsp_trouble = true,
       nvimtree = {
         transparent_panel = lvim.transparent_window,
+      },
+      native_lsp = {
+        enabled = true,
+        virtual_text = {
+          errors = { "italic" },
+          hints = { "italic" },
+          warnings = { "italic" },
+          information = { "italic" },
+        },
+        underlines = {
+          errors = { "undercurl" },
+          hints = {},
+          warnings = { "undercurl" },
+          information = {},
+        },
       },
       which_key = true,
       lightspeed = lvim.builtin.motion_provider == "lightspeed",
@@ -242,6 +262,9 @@ M.colors = {
 
 M.current_colors = function()
   local colors = M.colors.tokyonight_colors
+  if not lvim.builtin.time_based_themes then
+    return colors
+  end
   local _time = os.date "*t"
   if _time.hour >= 1 and _time.hour < 9 then
     colors = M.colors.rose_pine_colors

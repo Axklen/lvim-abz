@@ -15,7 +15,6 @@ M.config = function()
 
   -- TODO: change this to lua
   vim.cmd [[
-autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 " disable syntax highlighting in big files
 function! DisableSyntaxTreesitter()
     echo("Big file, disabling syntax, treesitter and folding")
@@ -48,6 +47,13 @@ augroup END
       command = "lua require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }",
     })
   end
+  create_aucmd("BufWritePre", {
+    group = "_lvim_user",
+    pattern = { "/tmp/*", "COMMIT_EDITMSG", "MERGE_MSG", "*.tmp", "*.bak" },
+    callback = function()
+      vim.opt_local.undofile = false
+    end,
+  })
 
   create_aucmd("TermOpen", {
     group = "_lvim_user",

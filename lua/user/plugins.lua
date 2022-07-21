@@ -21,7 +21,7 @@ M.config = function()
       end,
       cond = function()
         local _time = os.date "*t"
-        return (_time.hour >= 1 and _time.hour < 9)
+        return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
       end,
     },
     {
@@ -33,19 +33,22 @@ M.config = function()
       end,
       cond = function()
         local _time = os.date "*t"
-        return _time.hour >= 9 and _time.hour < 17
+        return (_time.hour >= 9 and _time.hour < 17) and lvim.builtin.time_based_themes
       end,
     },
     {
       "catppuccin/nvim",
       as = "catppuccin",
+      setup = function()
+        vim.g.catppuccin_flavour = "mocha"
+      end,
       config = function()
         require("user.theme").catppuccin()
         vim.cmd [[colorscheme catppuccin]]
       end,
       cond = function()
         local _time = os.date "*t"
-        return (_time.hour >= 17 and _time.hour < 21)
+        return (_time.hour >= 17 and _time.hour < 21) and lvim.builtin.time_based_themes
       end,
     },
     {
@@ -56,7 +59,8 @@ M.config = function()
       end,
       cond = function()
         local _time = os.date "*t"
-        return (_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1)
+        return ((_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1))
+          and lvim.builtin.time_based_themes
       end,
     },
     {
@@ -161,7 +165,7 @@ M.config = function()
     {
       "rcarriga/nvim-dap-ui",
       config = function()
-        require("dapui").setup()
+        require("user.dapui").config()
       end,
       ft = { "python", "rust", "go" },
       event = "BufReadPost",
@@ -279,6 +283,22 @@ M.config = function()
       "lervag/vimtex",
       ft = "tex",
     },
+    -- {
+    --   "nvim-neotest/neotest",
+    --   config = function()
+    --     require("user.ntest").config()
+    --   end,
+    --   requires = {
+    --     "nvim-neotest/neotest-go",
+    --     "nvim-neotest/neotest-python",
+    --     "nvim-neotest/neotest-plenary",
+    --     "nvim-neotest/neotest-vim-test",
+    --     "vim-test/vim-test",
+    --   },
+    --   -- opt = true,
+    --   -- event = { "BufEnter *_test.*,*_spec.*,test_*.*" },
+    --   disable = not lvim.builtin.test_runner.active,
+    -- },
     {
       "rcarriga/vim-ultest",
       cmd = { "Ultest", "UltestSummary", "UltestNearest" },
@@ -286,7 +306,7 @@ M.config = function()
       requires = { "vim-test/vim-test" },
       run = ":UpdateRemotePlugins",
       opt = true,
-      event = { "BufEnter *_test.*,*_spec.*" },
+      event = { "BufEnter *_test.*,*_spec.*,*est_*.*" },
       disable = not lvim.builtin.test_runner.active,
     },
     {
@@ -331,6 +351,10 @@ M.config = function()
         "DBUIFindBuffer",
         "DBUIRenameBuffer",
       },
+      setup = function()
+        vim.g.db_ui_use_nerd_fonts = 1
+        vim.g.db_ui_show_database_icon = 1
+      end,
       requires = {
         {
           "tpope/vim-dadbod",
@@ -442,7 +466,7 @@ M.config = function()
       disable = lvim.use_icons or not lvim.builtin.custom_web_devicons,
     },
     {
-      "nvim-telescope/telescope-live-grep-raw.nvim",
+      "nvim-telescope/telescope-live-grep-args.nvim",
     },
     { "mtdl9/vim-log-highlighting", ft = { "text", "log" } },
     {
@@ -610,6 +634,10 @@ M.config = function()
       requires = "nvim-treesitter/nvim-treesitter",
       event = { "InsertEnter", "CursorMoved" },
       disable = lvim.builtin.winbar_provider ~= "treesitter",
+    },
+    {
+      "vimpostor/vim-tpipeline",
+      disable = not lvim.builtin.tmux_lualine,
     },
   }
 end
