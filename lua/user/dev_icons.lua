@@ -2,8 +2,13 @@ local M = {}
 
 M.set_icon = function()
   require("nvim-web-devicons").set_icon {
+    toml = {
+      icon = "📦",
+      color = "#8FAA54",
+      name = "Toml",
+    },
     rs = {
-      icon = "",
+      icon = "🦀",
       color = "#d28445",
       name = "Rust",
     },
@@ -82,9 +87,6 @@ M.use_my_icons = function()
     file = true,
     folder_arrow = true,
   }
-  vim.fn.sign_define("DapBreakpoint", lvim.builtin.dap.breakpoint)
-  vim.fn.sign_define("DapBreakpointRejected", lvim.builtin.dap.breakpoint_rejected)
-  vim.fn.sign_define("DapStopped", lvim.builtin.dap.stopped)
   lvim.builtin.notify.opts.icons = {
     ERROR = "",
     WARN = "",
@@ -94,6 +96,23 @@ M.use_my_icons = function()
   }
   lvim.builtin.bufferline.options.show_buffer_icons = true
   lvim.builtin.bufferline.options.show_buffer_close_icons = true
+end
+
+M.define_dap_signs = function()
+  vim.fn.sign_define("DapBreakpoint", lvim.builtin.dap.breakpoint)
+  vim.fn.sign_define("DapStopped", lvim.builtin.dap.stopped)
+  vim.fn.sign_define(
+    "DapBreakpointRejected",
+    { text = "", texthl = "DapBreakpoint", linehl = "DapBreakpoint", numhl = "DapBreakpoint" }
+  )
+  vim.fn.sign_define(
+    "DapBreakpointCondition",
+    { text = "", texthl = "DapBreakpoint", linehl = "DapBreakpoint", numhl = "DapBreakpoint" }
+  )
+  vim.fn.sign_define(
+    "DapLogPoint",
+    { text = "", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" }
+  )
 end
 
 return M

@@ -51,13 +51,13 @@ M.set_hop_keymaps = function()
   vim.api.nvim_set_keymap(
     "",
     "t",
-    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>",
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>",
     {}
   )
   vim.api.nvim_set_keymap(
     "",
     "T",
-    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>",
+    "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = -1 })<cr>",
     {}
   )
 end
@@ -178,6 +178,13 @@ M.set_async_tasks_keymaps = function()
   end
 end
 
+M.set_lsp_lines_keymap = function()
+  lvim.builtin.which_key.mappings["v"] = {
+    "<cmd>lua require('lsp_lines').toggle()<CR>",
+    "識LSP Lines",
+  }
+end
+
 M.config = function()
   -- Additional keybindings
   -- =========================================
@@ -221,10 +228,13 @@ M.config = function()
   -- WhichKey keybindings
   -- =========================================
   M.set_async_tasks_keymaps()
-  lvim.builtin.which_key.mappings["/"] = {
-    "<cmd>lua require('Comment.api').toggle_current_linewise()<CR>",
-    " Comment",
-  }
+  local status_ok_comment, cmt = pcall(require, "Comment.api")
+  if status_ok_comment and cmt['toggle'] ~= nil then
+    lvim.builtin.which_key.mappings["/"] = {
+      "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>",
+      " Comment",
+    }
+  end
   lvim.builtin.which_key.mappings[";"] = { "<cmd>Alpha<CR>", "舘Dashboard" }
   if lvim.builtin.dap.active then
     lvim.builtin.which_key.mappings["de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" }
@@ -235,6 +245,9 @@ M.config = function()
   end
   if lvim.builtin.cheat.active then
     lvim.builtin.which_key.mappings["?"] = { "<cmd>Cheat<CR>", " Cheat.sh" }
+  end
+  if lvim.builtin.lsp_lines then
+    M.set_lsp_lines_keymap()
   end
   lvim.builtin.which_key.mappings["F"] = {
     name = " Find",
@@ -250,8 +263,8 @@ M.config = function()
     s = { "<cmd>lua require('user.telescope').git_status()<cr>", "Git Status" },
     z = { "<cmd>lua require('user.telescope').search_only_certain_files()<cr>", "Certain Filetype" },
   }
-  lvim.builtin.which_key.mappings["C"] = { "<cmd>Telescope command_center<cr>", " Command Palette" }
-  lvim.keys.normal_mode["<c-P>"] = "<cmd>Telescope command_center<cr>"
+  lvim.builtin.which_key.mappings["C"] = { "<cmd>lua require('legendary').find('commands')<cr>", " Command Palette" }
+  lvim.keys.normal_mode["<c-P>"] = "<cmd>lua require('legendary').find()<cr>"
 
   if lvim.builtin.file_browser.active then
     lvim.builtin.which_key.mappings["se"] = { "<cmd>Telescope file_browser<cr>", "File Browser" }
@@ -267,14 +280,20 @@ M.config = function()
   local ok, _ = pcall(require, "vim.diagnostic")
   if ok then
     lvim.builtin.which_key.mappings["l"]["j"] = {
-      "<cmd>lua vim.diagnostic.goto_next({float = {border = 'rounded', focusable = false, source = 'always'}})<cr>",
+      "<cmd>lua vim.diagnostic.goto_next({float = {border = 'rounded', focusable = false, source = 'always'}, severity = {min = vim.diagnostic.severity.WARN}})<cr>",
       "Next Diagnostic",
     }
     lvim.builtin.which_key.mappings["l"]["k"] = {
-      "<cmd>lua vim.diagnostic.goto_prev({float = {border = 'rounded', focusable = false, source = 'always'}})<cr>",
+      "<cmd>lua vim.diagnostic.goto_prev({float = {border = 'rounded', focusable = false, source = 'always'}, severity = {min = vim.diagnostic.severity.WARN}})<cr>",
       "Prev Diagnostic",
     }
   end
+
+  if status_ok_comment and cmt['toggle'] ~= nil then
+    lvim.builtin.which_key.vmappings["/"] =
+      { "<ESC><CMD>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", "Comment" }
+  end
+
   lvim.builtin.which_key.vmappings["l"] = {
     name = "+Lsp",
     r = { "<ESC><CMD>lua vim.lsp.buf.rename()<CR>", "Rename" },

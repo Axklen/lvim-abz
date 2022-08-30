@@ -116,7 +116,7 @@ M.config = function()
     },
     {
       "simrat39/symbols-outline.nvim",
-      setup = function()
+      config = function()
         require("user.symbols_outline").config()
       end,
       event = "BufReadPost",
@@ -193,6 +193,14 @@ M.config = function()
         require("user.rust_tools").config()
       end,
       ft = { "rust", "rs" },
+    },
+    {
+      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+      config = function()
+        require("lsp_lines").setup()
+      end,
+      event = "BufRead",
+      disable = not lvim.builtin.lsp_lines,
     },
     {
       "folke/zen-mode.nvim",
@@ -277,7 +285,6 @@ M.config = function()
       config = function()
         require("user.tss").config()
       end,
-      before = "williamboman/nvim-lsp-installer",
     },
     {
       "lervag/vimtex",
@@ -379,6 +386,7 @@ M.config = function()
       config = function()
         require("cinnamon").setup {
           default_keymaps = true,
+          default_delay = 4,
           extra_keymaps = true,
           extended_keymaps = false,
           centered = true,
@@ -582,11 +590,10 @@ M.config = function()
       disable = not lvim.builtin.fancy_wild_menu.active,
     },
     {
-      "gfeiyou/command-center.nvim",
+      "mrjones2014/legendary.nvim",
       config = function()
-        require("user.cc").config()
+        require("user.legendary").config()
       end,
-      requires = "nvim-telescope/telescope.nvim",
     },
     {
       "stevearc/dressing.nvim",

@@ -40,8 +40,8 @@ Do not use as is, use it as a source of inspiration.
   - [Plugin: Ultest](#plugin-ultest)
   - [Plugin: Spectre](#plugin-spectre)
   - [Plugin: Copilot](#plugin-copilot)
+  - [Plugin: Lsp_lines](#plugin-lsp-lines)
 - [Troubleshooting](#troubleshooting)
-
 
 <!-- vim-markdown-toc -->
 </details>
@@ -205,18 +205,9 @@ brew install --cask font-hack-nerd-font
 ## Language-Server Protocol (LSP)
 
 To leverage LSP auto-completions and other functionalities, after you open a
-file in Neovim, run `:LspInstall <server>` to use
-[nvim-lsp-installer](lsp-installer) installation feature.
+file in Neovim, run `:MasonInstall <server>` to use
+[mason](mason) installation feature.
 Use `Tab` to list available servers.
-
-Here are some common LSP server installations:
-
-- `:LspInstall html cssls jsonls yamlls`
-- `:LspInstall gopls`
-- `:LspInstall pylsp`
-- `:LspInstall bashls vimls sumneko_lua`
-- `:LspInstall diagnosticls`
-- and [more](lsp-installer)…
 
 ## Upgrade
 
@@ -227,6 +218,8 @@ lvim # run :PackerSync
 ```
 
 ### Recommended Linters
+
+You can use [mason](mason) to install these:
 
 ```shell
 brew install luarocks
@@ -404,7 +397,7 @@ _Symbols Outline_
 - [fidget](https://github.com/j-hui/fidget.nvim)
 - [clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim)
 - [crates.nvim](https://github.com/Saecki/crates.nvim)
-- [command_center](https://github.com/FeiyouG/command_center.nvim)
+- [legendary.nvim](https://github.com/mrjones2014/legendary.nvim)
 - [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim)
 
 ### Optional Plugins
@@ -443,7 +436,7 @@ _Symbols Outline_
 - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
 - [incline.nvim](https://github.com/b0o/incline.nvim)
 - [winbar.nvim](https://github.com/fgheng/winbar.nvim)
-- [vim-tpipeline](https://github.com/vimpostor/vim-tpipeline)
+- [lsp_lines.nvim](https://git.sr.ht/~whynothugo/lsp_lines.nvim)
 
 </details>
 
@@ -503,7 +496,7 @@ Note that,
 | <kbd>Ctrl</kbd>+<kbd>\</kbd>                                  |  𝐈   | Open terminal       | <small>toggleterm.nvim</small>                |
 | <kbd>Ctrl</kbd>+<kbd>s</kbd>                                  |  𝐈   | Show signature help | <small>`vim.lsp.buf.signature_help()`</small> |
 | <kbd>Alt</kbd>+<kbd>s</kbd>                                   |  𝐈   | Snippet selection   | <small>Telescope luasnip extension</small>    |
-| <kbd>Space</kbd>+<kbd>C</kbd> or <kbd>Ctrl</kbd>+<kbd>P</kbd> |  𝐍   | Command Palette     | <small>Telescope command_center</small>       |
+| <kbd>Space</kbd>+<kbd>C</kbd> or <kbd>Ctrl</kbd>+<kbd>P</kbd> |  𝐍   | Command Palette     | <small>legendary.nvim</small>                 |
 
 ### Motion
 
@@ -684,6 +677,12 @@ Note that,
 | <kbd>Alt</kbd>+<kbd>[</kbd>  |  𝐈   | `<Plug>(copilot-previous)`          |
 | <kbd>Alt</kbd>+<kbd>\</kbd>  |  𝐈   | `"<Cmd>vertical Copilot panel<CR>"` |
 
+### Plugin: Lsp_Lines
+
+| Key                           | Mode | Action                   |
+| ----------------------------- | :--: | ------------------------ |
+| <kbd>Space</kbd>+<kbd>v</kbd> |  𝐍   | Toggle showing lsp_lines |
+
 </details>
 
 [firacode]: https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode/Retina
@@ -693,12 +692,12 @@ Note that,
 [ripgrep]: https://github.com/BurntSushi/ripgrep
 [fd]: https://github.com/sharkdp/fd
 [nodejs install]: https://nodejs.org/en/download/package-manager/#macos
-[lsp-installer]: https://github.com/williamboman/nvim-lsp-installer#available-lsps
+[mason]: https://github.com/williamboman/mason.nvim
 [tex-support]: https://gist.github.com/peterhurford/75957ba9335e755013b87254ec85fab1
 
   
 # Troubleshooting
-  
-1. Check your neovim version. Are you on the newest nightly version? 
+
+1. Check your neovim version. Are you on the newest nightly version?
 2. Reset your packer cache, and update lvim.
   
