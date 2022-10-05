@@ -137,6 +137,16 @@ M.config = function()
   local alpha_opts = require("user.dashboard").config()
   lvim.builtin.alpha["custom"] = { config = alpha_opts }
 
+  -- GitSigns
+  -- =========================================
+  lvim.builtin.gitsigns.opts._threaded_diff = true
+  lvim.builtin.gitsigns.opts._extmark_signs = true
+  lvim.builtin.gitsigns.opts.current_line_blame_formatter = " <author>, <author_time> · <summary>"
+
+  -- IndentBlankline
+  -- =========================================
+  require("user.indent_blankline").config()
+
   -- LSP
   -- =========================================
   lvim.lsp.buffer_mappings.normal_mode["ga"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" }
@@ -149,6 +159,12 @@ M.config = function()
     "CodeLens Action",
   }
   lvim.lsp.buffer_mappings.normal_mode["gt"] = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto Type Definition" }
+  lvim.lsp.buffer_mappings.normal_mode["gp"] = {
+    function()
+      require("user.peek").Peek "definition"
+    end,
+    "Peek definition",
+  }
   lvim.lsp.buffer_mappings.normal_mode["K"] = {
     "<cmd>lua require('user.builtin').show_documentation()<CR>",
     "Show Documentation",
@@ -205,11 +221,36 @@ M.config = function()
     end
     return t.message
   end
+  lvim.lsp.on_attach_callback = M.lsp_on_attach_callback
 
   -- Lualine
   -- =========================================
   lvim.builtin.lualine.active = true
   lvim.builtin.lualine.sections.lualine_b = { "branch" }
+
+  -- Mason
+  -- =========================================
+  lvim.builtin.mason.ui.icons = kind.mason
+
+  -- Notify
+  -- =========================================
+  lvim.builtin.notify.opts.min_width = function()
+    return math.floor(vim.o.columns * 0.4)
+  end
+  lvim.builtin.notify.opts.max_width = function()
+    return math.floor(vim.o.columns * 0.4)
+  end
+  lvim.builtin.notify.opts.max_height = function()
+    return math.floor(vim.o.lines * 0.8)
+  end
+  lvim.builtin.notify.opts.render = function(...)
+    local notif = select(2, ...)
+    local style = notif.title[1] == "" and "minimal" or "default"
+    require("notify.render")[style](...)
+  end
+  lvim.builtin.notify.opts.stages = "fade_in_slide_out"
+  lvim.builtin.notify.opts.timeout = 3000
+  lvim.builtin.notify.opts.background_colour = "NormalFloat"
 
   -- NvimTree
   -- =========================================
@@ -222,7 +263,6 @@ M.config = function()
       error = kind.icons.error,
     },
   }
-  lvim.builtin.nvimtree.setup.renderer.icons.glyphs = kind.nvim_tree_icons
   lvim.builtin.nvimtree.on_config_done = function(_)
     lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeToggle<CR>", " Explorer" }
   end
@@ -232,6 +272,24 @@ M.config = function()
   -- =========================================
   lvim.builtin.project.active = true
   lvim.builtin.project.detection_methods = { "lsp", "pattern" }
+
+  -- Theme
+  -- =========================================
+  lvim.builtin.theme.options.style = "storm"
+  lvim.builtin.theme.options.styles.comments = {}
+  lvim.builtin.theme.options.dim_inactive = true
+
+  -- Toggleterm
+  -- =========================================
+  lvim.builtin.terminal.active = true
+  lvim.builtin.terminal.execs = {}
+  lvim.builtin.terminal.autochdir = true
+  lvim.builtin.terminal.open_mapping = nil
+  lvim.builtin.terminal.size = vim.o.columns * 0.4
+  lvim.builtin.terminal.on_config_done = function()
+    M.create_terminal(2, "<c-\\>", 20, "float")
+    M.create_terminal(3, "<A-0>", vim.o.columns * 0.4, "vertical")
+  end
 
   -- Treesitter
   -- =========================================
@@ -421,7 +479,17 @@ M.config = function()
     },
   }
   local telescope_actions = require "telescope.actions.set"
+  lvim.builtin.telescope.pickers.git_files = {
+    hidden = true,
+    show_untracked = true,
+    layout_strategy = "horizontal",
+  }
+  lvim.builtin.telescope.pickers.live_grep = {
+    only_sort_text = true,
+    layout_strategy = "horizontal",
+  }
   lvim.builtin.telescope.pickers.find_files = {
+    layout_strategy = "horizontal",
     attach_mappings = function(_)
       telescope_actions.select:enhance {
         post = function()
@@ -439,21 +507,21 @@ M.config = function()
     end
   end
 
-  -- Terminal
-  -- =========================================
-  lvim.builtin.terminal.active = true
-  lvim.builtin.terminal.open_mapping = [[<c-\>]]
-
   -- WhichKey
   -- =========================================
   lvim.builtin.which_key.setup.window.winblend = 10
   lvim.builtin.which_key.setup.window.border = "none"
+  lvim.builtin.which_key.setup.plugins.presets.z = true
+  lvim.builtin.which_key.setup.plugins.presets.g = true
+  lvim.builtin.which_key.setup.plugins.presets.windows = true
+  lvim.builtin.which_key.setup.plugins.presets.nav = true
+  lvim.builtin.which_key.setup.plugins.marks = true
+  lvim.builtin.which_key.setup.plugins.registers = true
   lvim.builtin.which_key.setup.icons = {
     breadcrumb = "/", -- symbol used in the command line area that shows your active key combo
     separator = "·", -- symbol used between a key and it's label
     group = "", -- symbol prepended to a group
   }
-  lvim.builtin.which_key.setup.triggers = { "<leader>", "g", "z", "]", "[" }
   lvim.builtin.which_key.setup.ignore_missing = true
 
   -- ETC
@@ -482,13 +550,14 @@ function M.tab(fallback)
     fallback()
   elseif luasnip.expand_or_locally_jumpable() then
     luasnip.expand_or_jump()
-  elseif methods.jumpable(1) then
-    luasnip.jump(1)
   elseif copilot_keys ~= "" then -- prioritise copilot over snippets
     -- Copilot keys do not need to be wrapped in termcodes
     vim.api.nvim_feedkeys(copilot_keys, "i", true)
+  elseif methods.jumpable(1) then
+    luasnip.jump(1)
   elseif methods.has_words_before() then
-    cmp.complete()
+    -- cmp.complete()
+    fallback()
   else
     methods.feedkeys("<Plug>(Tabout)", "")
   end
@@ -580,6 +649,22 @@ M.codes = {
   },
 }
 
+--- Create a new toggleterm
+---@param num number the terminal number must be > 1
+---@param keymap string the keymap to toggle the terminal
+---@param size number the size of the terminal
+---@param direction string can be 'float','vertical','horizontal'
+M.create_terminal = function(num, keymap, size, direction)
+  local terms = require "toggleterm.terminal"
+  local ui = require "toggleterm.ui"
+  local dir = vim.loop.cwd()
+  vim.keymap.set({ "n", "t" }, keymap, function()
+    local term = terms.get_or_create_term(num, dir, direction)
+    ui.update_origin_window(term.window)
+    term:toggle(size, direction)
+  end, { noremap = true, silent = true })
+end
+
 M.show_documentation = function()
   local filetype = vim.bo.filetype
   if vim.tbl_contains({ "vim", "help" }, filetype) then
@@ -590,6 +675,53 @@ M.show_documentation = function()
     vim.cmd("Man " .. vim.fn.expand "<cword>")
   else
     vim.lsp.buf.hover()
+  end
+end
+
+M.lsp_on_attach_callback = function(client, bufnr)
+  local opts = { noremap = true, silent = true }
+  if client.name == "clangd" then
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>H", "<Cmd>ClangdSwitchSourceHeader<CR>", opts)
+  elseif client.name == "gopls" then
+    vim.api.nvim_buf_set_keymap(
+      bufnr,
+      "n",
+      "<leader>H",
+      "<Cmd>lua require('lvim.core.terminal')._exec_toggle({cmd='go vet .;read',count=2,direction='float'})<CR>",
+      opts
+    )
+  elseif client.name == "jdtls" then
+    vim.api.nvim_buf_set_keymap(
+      bufnr,
+      "n",
+      "<leader>rf",
+      "<cmd>lua require('toggleterm.terminal').Terminal:new {cmd='mvn package;read', hidden =false}:toggle()<CR>",
+      opts
+    )
+    vim.api.nvim_buf_set_keymap(
+      bufnr,
+      "n",
+      "<leader>mf",
+      "<cmd>lua require('toggleterm.terminal').Terminal:new {cmd='mvn compile;read', hidden =false}:toggle()<CR>",
+      opts
+    )
+  elseif client.name == "rust_analyzer" then
+    vim.api.nvim_buf_set_keymap(
+      bufnr,
+      "n",
+      "<leader>H",
+      "<cmd>lua require('lvim.core.terminal')._exec_toggle({cmd='cargo clippy;read',count=2,direction='float'})<CR>",
+      opts
+    )
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lm", "<Cmd>RustExpandMacro<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lH", "<Cmd>RustToggleInlayHints<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>le", "<Cmd>RustRunnables<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<Cmd>RustHoverActions<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lc", "<Cmd>RustOpenCargo<CR>", opts)
+  elseif client.name == "tsserver" then
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lA", "<Cmd>TSLspImportAll<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lR", "<Cmd>TSLspRenameFile<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lO", "<Cmd>TSLspOrganize<CR>", opts)
   end
 end
 

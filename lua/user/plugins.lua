@@ -25,18 +25,6 @@ M.config = function()
       end,
     },
     {
-      "abzcoding/tokyonight.nvim",
-      branch = "feat/local",
-      config = function()
-        require("user.theme").tokyonight()
-        vim.cmd [[colorscheme tokyonight]]
-      end,
-      cond = function()
-        local _time = os.date "*t"
-        return (_time.hour >= 9 and _time.hour < 17) and lvim.builtin.time_based_themes
-      end,
-    },
-    {
       "catppuccin/nvim",
       as = "catppuccin",
       setup = function()
@@ -123,16 +111,6 @@ M.config = function()
       disable = lvim.builtin.tag_provider ~= "symbols-outline",
     },
     {
-      "lukas-reineke/indent-blankline.nvim",
-      setup = function()
-        vim.g.indent_blankline_char = "▏"
-      end,
-      config = function()
-        require("user.indent_blankline").config()
-      end,
-      event = "BufRead",
-    },
-    {
       "tzachar/cmp-tabnine",
       run = "./install.sh",
       requires = "hrsh7th/nvim-cmp",
@@ -161,16 +139,6 @@ M.config = function()
         require("user.bqf").config()
       end,
       event = "BufRead",
-    },
-    {
-      "rcarriga/nvim-dap-ui",
-      config = function()
-        require("user.dapui").config()
-      end,
-      ft = { "python", "rust", "go" },
-      event = "BufReadPost",
-      requires = { "mfussenegger/nvim-dap" },
-      disable = not lvim.builtin.dap.active,
     },
     {
       "andymass/vim-matchup",
@@ -221,7 +189,7 @@ M.config = function()
       config = function()
         require("user.colorizer").config()
       end,
-      event = "BufRead",
+      event = "BufReadPre",
     },
     {
       "folke/persistence.nvim",
@@ -268,7 +236,7 @@ M.config = function()
       config = function()
         require("user.vim_test").config()
       end,
-      disable = not lvim.builtin.test_runner.active,
+      disable = not (lvim.builtin.test_runner.active and lvim.builtin.test_runner.runner == "ultest"),
     },
     {
       "jose-elias-alvarez/typescript.nvim",
@@ -290,22 +258,21 @@ M.config = function()
       "lervag/vimtex",
       ft = "tex",
     },
-    -- {
-    --   "nvim-neotest/neotest",
-    --   config = function()
-    --     require("user.ntest").config()
-    --   end,
-    --   requires = {
-    --     "nvim-neotest/neotest-go",
-    --     "nvim-neotest/neotest-python",
-    --     "nvim-neotest/neotest-plenary",
-    --     "nvim-neotest/neotest-vim-test",
-    --     "vim-test/vim-test",
-    --   },
-    --   -- opt = true,
-    --   -- event = { "BufEnter *_test.*,*_spec.*,test_*.*" },
-    --   disable = not lvim.builtin.test_runner.active,
-    -- },
+    {
+      "nvim-neotest/neotest",
+      config = function()
+        require("user.ntest").config()
+      end,
+      requires = {
+        { "nvim-neotest/neotest-go" },
+        { "nvim-neotest/neotest-python" },
+        { "nvim-neotest/neotest-plenary" },
+        { "rouge8/neotest-rust" },
+      },
+      -- opt = true,
+      -- event = { "BufEnter *_test.*,*_spec.*,test_*.*" },
+      disable = not (lvim.builtin.test_runner.active and lvim.builtin.test_runner.runner == "neotest"),
+    },
     {
       "rcarriga/vim-ultest",
       cmd = { "Ultest", "UltestSummary", "UltestNearest" },
@@ -314,7 +281,7 @@ M.config = function()
       run = ":UpdateRemotePlugins",
       opt = true,
       event = { "BufEnter *_test.*,*_spec.*,*est_*.*" },
-      disable = not lvim.builtin.test_runner.active,
+      disable = not (lvim.builtin.test_runner.active and lvim.builtin.test_runner.runner == "ultest"),
     },
     {
       "akinsho/flutter-tools.nvim",
@@ -376,6 +343,7 @@ M.config = function()
       config = function()
         require("neoscroll").setup {
           easing_function = "quadratic",
+          hide_cursor = true,
         }
       end,
       event = "BufRead",
@@ -429,18 +397,9 @@ M.config = function()
       opt = true,
       cmd = { "DiffviewOpen", "DiffviewFileHistory" },
       module = "diffview",
-      keys = "<leader>gd",
-      setup = function()
-        require("which-key").register { ["<leader>gd"] = "diffview: diff HEAD" }
-      end,
+      keys = { "<leader>gd", "<leader>gh" },
       config = function()
-        require("diffview").setup {
-          enhanced_diff_hl = true,
-          key_bindings = {
-            file_panel = { q = "<Cmd>DiffviewClose<CR>" },
-            view = { q = "<Cmd>DiffviewClose<CR>" },
-          },
-        }
+        require("user.diffview").config()
       end,
       disable = not lvim.builtin.fancy_diff.active,
     },
@@ -461,15 +420,9 @@ M.config = function()
       disable = not lvim.builtin.remote_dev.active,
     },
     {
-      "nathom/filetype.nvim",
-      config = function()
-        require("user.filetype").config()
-      end,
-    },
-    {
       "abzcoding/nvim-mini-file-icons",
       config = function()
-        require("user.dev_icons").set_icon()
+        require("nvim-web-devicons").setup()
       end,
       disable = lvim.use_icons or not lvim.builtin.custom_web_devicons,
     },
@@ -529,8 +482,8 @@ M.config = function()
           let g:asynctasks_extra_config = ['~/.config/lvim/tasks.ini']
         ]]
       end,
-      event = "BufRead",
-      disable = not lvim.builtin.async_tasks.active,
+      event = { "BufRead", "BufNew" },
+      disable = lvim.builtin.task_runner ~= "async_tasks",
     },
     {
       "scalameta/nvim-metals",
@@ -594,6 +547,7 @@ M.config = function()
       config = function()
         require("user.legendary").config()
       end,
+      disable = not lvim.builtin.legendary.active,
     },
     {
       "stevearc/dressing.nvim",
@@ -646,6 +600,44 @@ M.config = function()
       "vimpostor/vim-tpipeline",
       disable = not lvim.builtin.tmux_lualine,
     },
+    {
+      "stevearc/overseer.nvim",
+      config = function()
+        require("user.ovs").config()
+      end,
+      disable = lvim.builtin.task_runner ~= "overseer",
+    },
+    {
+      "nvim-neo-tree/neo-tree.nvim",
+      branch = "v2.x",
+      requires = {
+        "MunifTanjim/nui.nvim",
+      },
+      config = function()
+        require("user.neotree").config()
+      end,
+      disable = lvim.builtin.tree_provider ~= "neo-tree",
+    },
+    {
+      "folke/noice.nvim",
+      event = "VimEnter",
+      config = function()
+        require("user.noice").config()
+      end,
+      requires = {
+        "MunifTanjim/nui.nvim",
+        "rcarriga/nvim-notify",
+      },
+      disable = not lvim.builtin.noice.active,
+    },
+    -- TODO: set this up when https://github.com/neovim/neovim/pull/20130 is merged
+    -- {
+    --   "lvimuser/lsp-inlayhints.nvim",
+    --   branch = "anticonceal",
+    --   config = function()
+    --     require("lsp-inlayhints").setup()
+    --   end,
+    -- },
   }
 end
 

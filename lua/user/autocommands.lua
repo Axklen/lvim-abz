@@ -3,6 +3,10 @@ local M = {}
 local create_aucmd = vim.api.nvim_create_autocmd
 
 M.config = function()
+  pcall(function()
+    vim.api.nvim_del_augroup_by_name "_last_status"
+  end)
+  vim.api.nvim_clear_autocmds { pattern = "lir", group = "_filetype_settings" }
   vim.api.nvim_create_augroup("_lvim_user", {})
   -- Autocommands
   if lvim.builtin.nonumber_unfocus then
@@ -12,6 +16,21 @@ M.config = function()
       { group = "_lvim_user", pattern = "*", command = "set norelativenumber nonumber nocursorline" }
     )
   end
+
+  -- NOTE: autocommands for "lvimuser/lsp-inlayhints.nvim"
+  -- vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
+  -- vim.api.nvim_create_autocmd("LspAttach", {
+  --   group = "LspAttach_inlayhints",
+  --   callback = function(args)
+  --     if not (args.data and args.data.client_id) then
+  --       return
+  --     end
+
+  --     local bufnr = args.buf
+  --     local client = vim.lsp.get_client_by_id(args.data.client_id)
+  --     require("lsp-inlayhints").on_attach(client, bufnr)
+  --   end,
+  -- })
 
   -- TODO: change this to lua
   vim.cmd [[
@@ -38,6 +57,11 @@ augroup BigFileDisable
     autocmd BufReadPre,FileReadPre * if getfsize(expand("%")) > 1024 * 1024 | exec DisableSyntaxTreesitter() | endif
 augroup END
   ]]
+  create_aucmd("BufReadPost", {
+    group = "_lvim_user",
+    pattern = "*.md",
+    command = "set syntax=markdown",
+  })
 
   if lvim.builtin.sql_integration.active then
     -- Add vim-dadbod-completion in sql files
@@ -47,6 +71,14 @@ augroup END
       command = "lua require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }",
     })
   end
+  create_aucmd("TextYankPost", {
+    group = "_general_settings",
+    pattern = "*",
+    desc = "Highlight text on yank",
+    callback = function()
+      require("vim.highlight").on_yank { higroup = "Search", timeout = 40 }
+    end,
+  })
   create_aucmd("BufWritePre", {
     group = "_lvim_user",
     pattern = { "/tmp/*", "COMMIT_EDITMSG", "MERGE_MSG", "*.tmp", "*.bak" },
@@ -60,63 +92,13 @@ augroup END
     pattern = "term://*",
     command = "lua require('user.keybindings').set_terminal_keymaps()",
   })
-  -- { "FileType", { group = "_lvim_user", pattern="alpha", command = "nnoremap <silent> <buffer> q :q<CR>" } },
-  create_aucmd("Filetype", {
-    group = "_lvim_user",
-    pattern = { "c", "cpp" },
-    command = "nnoremap <leader>H <Cmd>ClangdSwitchSourceHeader<CR>",
-  })
-  create_aucmd("Filetype", {
-    group = "_lvim_user",
-    pattern = "go",
-    command = "nnoremap <leader>H <cmd>lua require('lvim.core.terminal')._exec_toggle({cmd='go vet .;read',count=2,direction='float'})<CR>",
-  })
-  create_aucmd("Filetype", {
-    group = "_lvim_user",
-    pattern = { "scala", "sbt", "java" },
-    command = "lua require('user.metals').config()",
-  })
-  create_aucmd("FileType", {
-    group = "_lvim_user",
-    pattern = "java",
-    callback = function()
-      vim.keymap.set(
-        "n",
-        "<leader>r",
-        "<cmd>lua require('toggleterm.terminal').Terminal:new {cmd='mvn package;read', hidden =false}:toggle()<CR>"
-      )
-      vim.keymap.set(
-        "n",
-        "<leader>m",
-        "<cmd>lua require('toggleterm.terminal').Terminal:new {cmd='mvn compile;read', hidden =false}:toggle()<CR>"
-      )
-    end,
-  })
-  create_aucmd("FileType", {
-    group = "_lvim_user",
-    pattern = "rust",
-    callback = function()
-      vim.keymap.set(
-        "n",
-        "<leader>H",
-        "<cmd>lua require('lvim.core.terminal')._exec_toggle({cmd='cargo clippy;read',count=2,direction='float'})<CR>"
-      )
-      vim.keymap.set("n", "<leader>lm", "<Cmd>RustExpandMacro<CR>")
-      vim.keymap.set("n", "<leader>lH", "<Cmd>RustToggleInlayHints<CR>")
-      vim.keymap.set("n", "<leader>le", "<Cmd>RustRunnables<CR>")
-      vim.keymap.set("n", "<leader>lh", "<Cmd>RustHoverActions<CR>")
-      vim.keymap.set("n", "<leader>lc", "<Cmd>RustOpenCargo<CR>")
-    end,
-  })
-  create_aucmd("FileType", {
-    group = "_lvim_user",
-    pattern = { "typescript", "typescriptreact" },
-    callback = function()
-      vim.keymap.set("n", "<leader>lA", "<Cmd>TSLspImportAll<CR>")
-      vim.keymap.set("n", "<leader>lR", "<Cmd>TSLspRenameFile<CR>")
-      vim.keymap.set("n", "<leader>lO", "<Cmd>TSLspOrganize<CR>")
-    end,
-  })
+  if lvim.builtin.metals.active then
+    create_aucmd("Filetype", {
+      group = "_lvim_user",
+      pattern = { "scala", "sbt" },
+      callback = require("user.metals").start,
+    })
+  end
   create_aucmd("FileType", {
     group = "_lvim_user",
     pattern = "toml",

@@ -2,10 +2,6 @@
 
 based on [abzcoding/lvim](https://github.com/abzcoding/lvim), atm it is mostly a fork ;)
 
-Do not use as is, use it as a source of inspiration.
-
-![141789968-ed61958c-9154-4774-b2e2-dfabe48d9660](https://user-images.githubusercontent.com/10992695/141791560-5062246a-056c-4a73-afa7-3152e6ad396e.jpg)
-
 <details open>
   <summary>
     <strong>Table of Contents</strong>
@@ -15,7 +11,7 @@ Do not use as is, use it as a source of inspiration.
 <!-- vim-markdown-toc GFM -->
 
 - [Theme](#theme)
-- [Customization](#features)
+- [Customization](#customization)
 - [Install](#install)
 - [Collaborative Editing](#collaborative-editing)
 - [Java](#java)
@@ -38,9 +34,12 @@ Do not use as is, use it as a source of inspiration.
   - [Plugin: Bufferline](#plugin-bufferline)
   - [Plugin: Trouble](#plugin-trouble)
   - [Plugin: Ultest](#plugin-ultest)
+  - [Plugin: Neotest](#plugin-neotest)
   - [Plugin: Spectre](#plugin-spectre)
   - [Plugin: Copilot](#plugin-copilot)
-  - [Plugin: Lsp_lines](#plugin-lsp-lines)
+  - [Plugin: Lsp_Lines](#plugin-lsp_lines)
+  - [Plugin: Overseer](#plugin-overseer)
+  - [Plugin: NeoTree](#plugin-neotree)
 - [Troubleshooting](#troubleshooting)
 
 <!-- vim-markdown-toc -->
@@ -82,7 +81,7 @@ lvim.plugins = {
     <small><i>(🔎 Click to expand/collapse)</i></small>
   </summary>
 
-- I'm on the `rolling` branch of LunarVim and i'm using `neovim nightly`
+- I'm on [this PR](https://github.com/LunarVim/LunarVim/pull/2544) of LunarVim and i am using `neovim 0.9 head`
 - Do not use as is, too much bloated! Also do not use on a potato PC!!
 - i have a auto command to disable syntax,etc when you open files larger than `1MB`
 - if you don't want to use `harpoon`, disable it
@@ -100,8 +99,8 @@ lvim.plugins = {
   - `lvim.builtin.lastplace = { active = false }`
 - sometimes `compe-tabnine` doesn't play nice, you can disable it :)
   - `lvim.builtin.tabnine = { active = false }`
-- if you don't need testing, just disable it
-  - `lvim.builtin.test_runner = { active = false }`
+- if you don't need testing, just disable it (use `ultest` or `neotest`)
+  - `lvim.builtin.test_runner = { active = false, runner = "ultest" }`
 - if you don't want [cheat.sh](http://cheat.sh) integration, disable it
   - `lvim.builtin.cheat = { active = false }`
 - if you don't want the SQL integration, disable it
@@ -112,12 +111,16 @@ lvim.plugins = {
   - `lvim.builtin.nonumber_unfocus = true`
 - choose between [hop](https://github.com/phaazon/hop.nvim) and [lightspeed](https://github.com/ggandor/lightspeed.nvim) as your favorite motion provider
   - `lvim.builtin.motion_provider = "hop"`
-- choose between [filename->incline](https://github.com/b0o/incline.nvim) and [treesitter->winbar](https://github.com/fgheng/winbar.nvim) as your winbar provider
+- choose between [filename->incline](https://github.com/b0o/incline.nvim) and [treesitter->winbar](https://github.com/fgheng/winbar.nvim) or [navic](https://github.com/SmiteshP/nvim-navic) as your winbar provider
   - `lvim.builtin.winbar_provider = "treesitter"`
 - if you don't need CSV support, disable it
   - `lvim.builtin.csv_support = false`
 - if you want to use the cool make and run system, enable it
-  - `lvim.builtin.async_tasks = { active = true }`
+  - `lvim.builtin.task_runner = "async_tasks"`
+- you can choose between `nvimtree` and `neo-tree` as your file tree viewer
+  - `lvim.builtin.tree_provider = "neo-tree"`
+- you can use noice.nvim if you want
+  - `lvim.builtin.noice = { active = true }`
 - If you wanna see the issues, remove `lvim.lsp.diagnostics.virtual_text = false`
 - I'm using `skim` for `latex` stuff, change it to `zathura` if you are on `linux`
 
@@ -134,7 +137,7 @@ lvim.plugins = {
 
 ### Prerequisites
 
-- [Neovim](neovim-install) >= v0.6.0
+- [Neovim](neovim-install) >= v0.8.0
 
 ```shell
   brew install neovim --nightly
@@ -372,14 +375,12 @@ _Symbols Outline_
 <details>
   <summary><strong>Plugins</strong> <small><i>(🔎 Click to expand/collapse)</i></small></summary>
 
-- [Tokyonight Theme](https://github.com/folke/tokyonight.nvim/)
 - [Doom One Theme](https://github.com/NTBBloodbath/doom-one.nvim)
 - [Rose Pine Theme](https://github.com/rose-pine/neovim)
 - [LSP Signature](https://github.com/ray-x/lsp_signature.nvim/)
 - [Todo Comments](https://github.com/folke/todo-comments.nvim)
 - [Trouble](https://github.com/folke/trouble.nvim)
 - [symbols-outline.nvim](https://github.com/simrat39/symbols-outline.nvim)
-- [Indent Blankline](https://github.com/lukas-reineke/indent-blankline.nvim)
 - [Twilight](https://github.com/folke/twilight.nvim)
 - [nvim-bqf](https://github.com/kevinhwang91/nvim-bqf)
 - [vim match-up](https://github.com/andymass/vim-matchup)
@@ -397,7 +398,6 @@ _Symbols Outline_
 - [fidget](https://github.com/j-hui/fidget.nvim)
 - [clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim)
 - [crates.nvim](https://github.com/Saecki/crates.nvim)
-- [legendary.nvim](https://github.com/mrjones2014/legendary.nvim)
 - [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim)
 
 ### Optional Plugins
@@ -437,6 +437,11 @@ _Symbols Outline_
 - [incline.nvim](https://github.com/b0o/incline.nvim)
 - [winbar.nvim](https://github.com/fgheng/winbar.nvim)
 - [lsp_lines.nvim](https://git.sr.ht/~whynothugo/lsp_lines.nvim)
+- [neotest](https://github.com/nvim-neotest/neotest)
+- [legendary.nvim](https://github.com/mrjones2014/legendary.nvim)
+- [overseer.nvim](https://github.com/stevearc/overseer.nvim)
+- [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim/blob/v2.x)
+- [noice.nvim](https://github.com/folke/noice.nvim)
 
 </details>
 
@@ -493,7 +498,8 @@ Note that,
 | <kbd>Space</kbd>+<kbd>'</kbd>                                 |  𝐍   | Open marks          | <small>which-key marks</small>                |
 | <kbd>Space</kbd>+<kbd>z</kbd>                                 |  𝐍   | Zen mode            | <small>zen-mode.nvim</small>                  |
 | <kbd>Space</kbd>+<kbd>P</kbd>                                 |  𝐍   | Projects            | <small>project.nvim</small>                   |
-| <kbd>Ctrl</kbd>+<kbd>\</kbd>                                  |  𝐈   | Open terminal       | <small>toggleterm.nvim</small>                |
+| <kbd>Ctrl</kbd>+<kbd>\</kbd>                                  | 𝐈 𝐍  | Open terminal       | <small>toggleterm.nvim</small>                |
+| <kbd>Alt</kbd>+<kbd>0</kbd>                                   | 𝐈 𝐍  | Vertical terminal   | <small>toggleterm.nvim</small>                |
 | <kbd>Ctrl</kbd>+<kbd>s</kbd>                                  |  𝐈   | Show signature help | <small>`vim.lsp.buf.signature_help()`</small> |
 | <kbd>Alt</kbd>+<kbd>s</kbd>                                   |  𝐈   | Snippet selection   | <small>Telescope luasnip extension</small>    |
 | <kbd>Space</kbd>+<kbd>C</kbd> or <kbd>Ctrl</kbd>+<kbd>P</kbd> |  𝐍   | Command Palette     | <small>legendary.nvim</small>                 |
@@ -554,6 +560,8 @@ Note that,
 | <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>l</kbd>                                               |  𝐍   | Blame line             |
 | <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>s</kbd>                                               | 𝐍 𝐕  | Stage hunk             |
 | <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>u</kbd>                                               |  𝐍   | Undo stage hunk        |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>d</kbd>                                               |  𝐍   | Diff to head           |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>h</kbd>                                               |  𝐍   | Buffer git history     |
 | <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>R</kbd>                                               | 𝐍 𝐕  | Reset hunk             |
 
 ### Plugin: LazyGit
@@ -601,12 +609,12 @@ Note that,
 
 | Key                               | Mode | Action                           |
 | --------------------------------- | :--: | -------------------------------- |
-| <kbd>Space</kbd>+<kbd>Space</kbd> |  𝐍   | show harpoon shortlist           |
-| <kbd>Space</kbd>+<kbd>a</kbd>     |  𝐍   | add file to shortlist            |
-| <kbd>Space</kbd>+<kbd>1</kbd>     |  𝐍   | jump to first file on shortlist  |
-| <kbd>Space</kbd>+<kbd>2</kbd>     |  𝐍   | jump to second file on shortlist |
-| <kbd>Space</kbd>+<kbd>3</kbd>     |  𝐍   | jump to third file on shortlist  |
-| <kbd>Space</kbd>+<kbd>4</kbd>     |  𝐍   | jump to forth file on shortlist  |
+| <kbd>Space</kbd>+<kbd>Space</kbd> |  𝐍   | Show harpoon shortlist           |
+| <kbd>Space</kbd>+<kbd>a</kbd>     |  𝐍   | Add file to shortlist            |
+| <kbd>Space</kbd>+<kbd>1</kbd>     |  𝐍   | Jump to first file on shortlist  |
+| <kbd>Space</kbd>+<kbd>2</kbd>     |  𝐍   | Jump to second file on shortlist |
+| <kbd>Space</kbd>+<kbd>3</kbd>     |  𝐍   | Jump to third file on shortlist  |
+| <kbd>Space</kbd>+<kbd>4</kbd>     |  𝐍   | Jump to forth file on shortlist  |
 
 ### Plugin: Neogen
 
@@ -621,20 +629,20 @@ Note that,
 
 | Key                                        | Mode | Action                                |
 | ------------------------------------------ | :--: | ------------------------------------- |
-| <kbd>Space</kbd>+<kbd>q</kbd>+<kbd>d</kbd> |  𝐍   | quit without saving session           |
-| <kbd>Space</kbd>+<kbd>q</kbd>+<kbd>l</kbd> |  𝐍   | restore last session                  |
-| <kbd>Space</kbd>+<kbd>q</kbd>+<kbd>s</kbd> |  𝐍   | restore last session from current dir |
+| <kbd>Space</kbd>+<kbd>q</kbd>+<kbd>d</kbd> |  𝐍   | Quit without saving session           |
+| <kbd>Space</kbd>+<kbd>q</kbd>+<kbd>l</kbd> |  𝐍   | Restore last session                  |
+| <kbd>Space</kbd>+<kbd>q</kbd>+<kbd>s</kbd> |  𝐍   | Restore last session from current dir |
 
 ### Plugin: Bufferline
 
 | Key                                        | Mode | Action               |
 | ------------------------------------------ | :--: | -------------------- |
-| <kbd>Shift</kbd>+<kbd>x</kbd>              |  𝐍   | close buffer         |
-| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>f</kbd> |  𝐍   | find buffer          |
-| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>b</kbd> |  𝐍   | toggle buffer groups |
-| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>p</kbd> |  𝐍   | toggle pin           |
-| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>s</kbd> |  𝐍   | pick buffer          |
-| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>1</kbd> |  𝐍   | goto buffer 1        |
+| <kbd>Shift</kbd>+<kbd>x</kbd>              |  𝐍   | Close buffer         |
+| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>f</kbd> |  𝐍   | Find buffer          |
+| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>b</kbd> |  𝐍   | Toggle buffer groups |
+| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>p</kbd> |  𝐍   | Toggle pin           |
+| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>s</kbd> |  𝐍   | Pick buffer          |
+| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>1</kbd> |  𝐍   | Goto buffer 1        |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>h</kbd> |  𝐍   | Close all to left    |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>l</kbd> |  𝐍   | Close all to right   |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>D</kbd> |  𝐍   | Sort by directory    |
@@ -644,34 +652,49 @@ Note that,
 
 | Key                                        | Mode | Action                |
 | ------------------------------------------ | :--: | --------------------- |
-| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>d</kbd> |  𝐍   | diagnostics           |
-| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>f</kbd> |  𝐍   | definitions           |
-| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>r</kbd> |  𝐍   | references            |
-| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>t</kbd> |  𝐍   | todo                  |
-| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>w</kbd> |  𝐍   | workspace diagnostics |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>d</kbd> |  𝐍   | Diagnostics           |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>f</kbd> |  𝐍   | Definitions           |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>r</kbd> |  𝐍   | References            |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>t</kbd> |  𝐍   | Todo                  |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>w</kbd> |  𝐍   | Workspace diagnostics |
 
 ### Plugin: Ultest
 
 | Key                                        | Mode | Action                  |
 | ------------------------------------------ | :--: | ----------------------- |
-| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>f</kbd> |  𝐍   | run all tests in a file |
-| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>n</kbd> |  𝐍   | only run nearest test   |
-| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>s</kbd> |  𝐍   | open test summary       |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>f</kbd> |  𝐍   | Run all tests in a file |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>n</kbd> |  𝐍   | Only run nearest test   |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>s</kbd> |  𝐍   | Open test summary       |
+
+### Plugin: Neotest
+
+| Key                                        | Mode | Action                       |
+| ------------------------------------------ | :--: | ---------------------------- |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>a</kbd> |  𝐍   | Run all tests                |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>f</kbd> |  𝐍   | Run tests in a file          |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>r</kbd> |  𝐍   | Only run nearest test        |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>s</kbd> |  𝐍   | Open test summary            |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>o</kbd> |  𝐍   | Open test output             |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>w</kbd> |  𝐍   | Watch test                   |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>x</kbd> |  𝐍   | Stop test                    |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>n</kbd> |  𝐍   | Jump to next failed test     |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>p</kbd> |  𝐍   | Jump to previous failed test |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>c</kbd> |  𝐍   | Cancel test                  |
 
 ### Plugin: Spectre
 
 | Key                                        | Mode | Action                         |
 | ------------------------------------------ | :--: | ------------------------------ |
-| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>p</kbd> |  𝐍   | replace word in project        |
-| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>w</kbd> |  𝐍   | replace visually selected word |
-| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>f</kbd> |  𝐍   | replace word in current buffer |
+| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>p</kbd> |  𝐍   | Replace word in project        |
+| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>w</kbd> |  𝐍   | Replace visually selected word |
+| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>f</kbd> |  𝐍   | Replace word in current buffer |
 
 ### Plugin: Copilot
 
 | Key                          | Mode | Action                              |
 | ---------------------------- | :--: | ----------------------------------- |
 | <kbd>Ctrl</kbd>+<kbd>h</kbd> |  𝐈   | `copilot#Accept("<CR>")`            |
-| <kbd>Ctrl</kbd>+<kbd>e</kbd> |  𝐈   | close cmp menu                      |
+| <kbd>Ctrl</kbd>+<kbd>e</kbd> |  𝐈   | Close cmp menu                      |
 | <kbd>Ctrl</kbd>+<kbd>]</kbd> |  𝐈   | `<Plug>(copilot-dismiss)`           |
 | <kbd>Alt</kbd>+<kbd>]</kbd>  |  𝐈   | `<Plug>(copilot-next)`              |
 | <kbd>Alt</kbd>+<kbd>[</kbd>  |  𝐈   | `<Plug>(copilot-previous)`          |
@@ -682,6 +705,37 @@ Note that,
 | Key                           | Mode | Action                   |
 | ----------------------------- | :--: | ------------------------ |
 | <kbd>Space</kbd>+<kbd>v</kbd> |  𝐍   | Toggle showing lsp_lines |
+
+### Plugin: Overseer
+
+| Key                                        | Mode | Action           |
+| ------------------------------------------ | :--: | ---------------- |
+| <kbd>Space</kbd>+<kbd>r</kbd>+<kbd>f</kbd> |  𝐍   | Run              |
+| <kbd>Space</kbd>+<kbd>r</kbd>+<kbd>p</kbd> |  𝐍   | Run with cmd     |
+| <kbd>Space</kbd>+<kbd>r</kbd>+<kbd>t</kbd> |  𝐍   | Toggle output    |
+| <kbd>Space</kbd>+<kbd>m</kbd>+<kbd>n</kbd> |  𝐍   | New Task         |
+| <kbd>Space</kbd>+<kbd>m</kbd>+<kbd>l</kbd> |  𝐍   | Load Task Bundle |
+| <kbd>Space</kbd>+<kbd>m</kbd>+<kbd>s</kbd> |  𝐍   | Save Task Bundle |
+| <kbd>Space</kbd>+<kbd>m</kbd>+<kbd>q</kbd> |  𝐍   | Quick Action     |
+| <kbd>Space</kbd>+<kbd>m</kbd>+<kbd>f</kbd> |  𝐍   | Task Action      |
+
+### Plugin: NeoTree
+
+| Key                           | Mode | Action                           |
+| ----------------------------- | :--: | -------------------------------- |
+| <kbd>Space</kbd>+<kbd>e</kbd> |  𝐍   | Toggle tree                      |
+| <kbd>></kbd> and <kbd><</kbd> |  𝐍   | Next and prev source inside tree |
+| <kbd><cr></kbd>               |  𝐍   | Open                             |
+| <kbd>s</kbd>                  |  𝐍   | Open in vertical split           |
+| <kbd>S</kbd>                  |  𝐍   | Open in horizontal spit          |
+| <kbd>H</kbd>                  |  𝐍   | Toggle hidden files              |
+| <kbd>a</kbd>                  |  𝐍   | Add files/dirs                   |
+| <kbd>A</kbd>                  |  𝐍   | Add new dir                      |
+| <kbd>r</kbd>                  |  𝐍   | Rename                           |
+| <kbd>h</kbd>                  |  𝐍   | Go Updir                         |
+| <kbd>l</kbd>                  |  𝐍   | Open                             |
+| <kbd>P</kbd>                  |  𝐍   | Toggle preview                   |
+| <kbd>/</kbd>                  |  𝐍   | Fuzzy finder                     |
 
 </details>
 
@@ -695,9 +749,7 @@ Note that,
 [mason]: https://github.com/williamboman/mason.nvim
 [tex-support]: https://gist.github.com/peterhurford/75957ba9335e755013b87254ec85fab1
 
-  
 # Troubleshooting
 
 1. Check your neovim version. Are you on the newest nightly version?
 2. Reset your packer cache, and update lvim.
-  

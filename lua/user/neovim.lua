@@ -24,7 +24,6 @@ M.config = function()
   for _, plugin in pairs(disabled_plugins) do
     vim.g["loaded_" .. plugin] = 1
   end
-  -- vim.g.did_load_filetypes = 1
   vim.g.ultest_summary_width = 30
   vim.g.ultest_deprecation_notice = 0
   vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -43,6 +42,8 @@ M.config = function()
   vim.opt.redrawtime = 1500
   vim.opt.ttimeoutlen = 10
   vim.opt.wrapscan = true -- Searches wrap around the end of the file
+  vim.o.secure = true -- Disable autocmd etc for project local vimrc files.
+  vim.o.exrc = false -- Allow project local vimrc files example .nvimrc see :h exrc
   vim.wo.foldmethod = "expr"
   vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
   vim.wo.foldlevel = 4
@@ -60,35 +61,22 @@ M.config = function()
   vim.opt.confirm = true -- make vim prompt me to save before doing destructive things
   vim.opt.autowriteall = true -- automatically :write before running commands and changing files
   vim.opt.clipboard = "unnamedplus"
-  if vim.fn.has "nvim-0.7" ~= 0 then
-    vim.opt.fillchars = {
-      fold = " ",
-      eob = " ", -- suppress ~ at EndOfBuffer
-      diff = "╱", -- alternatives = ⣿ ░ ─
-      msgsep = "‾",
-      foldopen = "▾",
-      foldsep = "│",
-      foldclose = "▸",
-      horiz = "━",
-      horizup = "┻",
-      horizdown = "┳",
-      vert = "┃",
-      vertleft = "┫",
-      vertright = "┣",
-      verthoriz = "╋",
-    }
-  else
-    vim.opt.fillchars = {
-      vert = "▕", -- alternatives │
-      fold = " ",
-      eob = " ", -- suppress ~ at EndOfBuffer
-      diff = "╱", -- alternatives = ⣿ ░ ─
-      msgsep = "‾",
-      foldopen = "▾",
-      foldsep = "│",
-      foldclose = "▸",
-    }
-  end
+  vim.opt.fillchars = {
+    fold = " ",
+    eob = " ", -- suppress ~ at EndOfBuffer
+    diff = "╱", -- alternatives = ⣿ ░ ─
+    msgsep = "‾",
+    foldopen = "▾",
+    foldsep = "│",
+    foldclose = "▸",
+    horiz = "━",
+    horizup = "┻",
+    horizdown = "┳",
+    vert = "┃",
+    vertleft = "┫",
+    vertright = "┣",
+    verthoriz = "╋",
+  }
   vim.opt.wildignore = {
     "*.aux,*.out,*.toc",
     "*.o,*.obj,*.dll,*.jar,*.pyc,__pycache__,*.rbc,*.class",
@@ -144,23 +132,21 @@ M.config = function()
   -- Cursorline highlighting control
   --  Only have it on in the active buffer
   vim.opt.cursorline = true -- Highlight the current line
-  if vim.fn.has "nvim-0.7" ~= 0 then
-    local group = vim.api.nvim_create_augroup("CursorLineControl", { clear = true })
-    vim.api.nvim_create_autocmd("WinLeave", {
-      group = group,
-      callback = function()
-        vim.opt_local.cursorline = false
-      end,
-    })
-    vim.api.nvim_create_autocmd("WinEnter", {
-      group = group,
-      callback = function()
-        if vim.bo.filetype ~= "alpha" then
-          vim.opt_local.cursorline = true
-        end
-      end,
-    })
-  end
+  local group = vim.api.nvim_create_augroup("CursorLineControl", { clear = true })
+  vim.api.nvim_create_autocmd("WinLeave", {
+    group = group,
+    callback = function()
+      vim.opt_local.cursorline = false
+    end,
+  })
+  vim.api.nvim_create_autocmd("WinEnter", {
+    group = group,
+    callback = function()
+      if vim.bo.filetype ~= "alpha" then
+        vim.opt_local.cursorline = true
+      end
+    end,
+  })
 
   if vim.g.neovide then
     vim.g.neovide_cursor_animation_length = 0.01
