@@ -7,6 +7,10 @@ M.config = function()
   end
   lvim.plugins = {
     {
+      "microsoft/python-type-stubs",
+      opt = true,
+    },
+    {
       "ur4ltz/surround.nvim",
       config = function()
         require("surround").setup { mappings_style = "sandwich" }
