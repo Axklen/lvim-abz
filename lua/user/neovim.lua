@@ -35,7 +35,7 @@ M.config = function()
     "hiddenoff",
     "algorithm:minimal",
   }
-  vim.opt.wrap = true
+  vim.opt.wrap = false
   vim.opt.termguicolors = true
   vim.opt.updatetime = 100
   vim.opt.timeoutlen = 250

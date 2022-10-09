@@ -22,6 +22,7 @@ local opts = {
         autoSearchPaths = true,
         diagnosticMode = "workspace",
         useLibraryCodeForTypes = true,
+        stubPath = "typings"
       },
     },
   },

@@ -12,6 +12,9 @@ M.config = function()
     popupmenu = {
       enabled = not lvim.builtin.fancy_wild_menu.active,
     },
+    notify = {
+      enabled = lvim.builtin.notify.active,
+    },
     routes = {
       {
         filter = { event = "msg_show", kind = "search_count" },
@@ -24,7 +27,28 @@ M.config = function()
       {
         filter = {
           event = "msg_show",
-          find = " lines,",
+          find = "E486:",
+        },
+        opts = { skip = true },
+      },
+      {
+        filter = {
+          event = "msg_show",
+          find = "; before #",
+        },
+        opts = { skip = true },
+      },
+      {
+        filter = {
+          event = "msg_show",
+          find = "; after #",
+        },
+        opts = { skip = true },
+      },
+      {
+        filter = {
+          event = "msg_show",
+          find = " lines, ",
         },
         opts = { skip = true },
       },
