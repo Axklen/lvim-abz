@@ -2,7 +2,6 @@
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.autoImportCompletions":true,
   "python.analysis.diagnosticMode": "workspace",
-  "python.analysis.stubPath": "./",
   "python.analysis.useLibraryCodeForTypes": true
 
 }

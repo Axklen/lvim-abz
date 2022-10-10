@@ -74,6 +74,7 @@ lvim.builtin.go_programming = { active = false } -- gopher.nvim + nvim-dap-go
 lvim.builtin.python_programming = { active = false } -- swenv.nvim + nvim-dap-python
 lvim.builtin.web_programming = { active = false } -- typescript.nvim + package-info.nvimconfig
 lvim.builtin.rust_programming = { active = false } -- rust_tools.nvim + crates.nvim
+lvim.builtin.cmp.cmdline.enable = false
 
 -- Custom User Config
 -- =========================================
@@ -131,12 +132,8 @@ vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, {
   "texlab",
   "tsserver",
   "yamlls",
+  "emmet_ls",
 })
--- emmet
-lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(s)
-        return s ~= "emmet_ls"
-end, lvim.lsp.automatic_configuration.skipped_servers)
-
 require("user.null_ls").config()
 
 -- Additional Plugins
