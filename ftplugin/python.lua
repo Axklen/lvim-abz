@@ -1,35 +1,30 @@
+local path = require "mason-core.path"
+
+local function get_python_path(workspace)
+  if vim.env.VIRTUAL_ENV then
+    return path.join(vim.env.VIRTUAL_ENV, "bin", "python")
+  end
+  if vim.fn.filereadable(path.concat { workspace, "poetry.lock" }) then
+    local venv = vim.fn.trim(vim.fn.system "poetry env info -p")
+    return path.concat { venv, "bin", "python" }
+  end
+  return vim.fn.exepath "python3" or vim.fn.exepath "python" or "python"
+end
+
 local opts = {
-  root_dir = function(fname)
-    local util = require "lspconfig.util"
-    local root_files = {
-      "pyproject.toml",
-      "setup.py",
-      "setup.cfg",
-      "requirements.txt",
-      "Pipfile",
-      "manage.py",
-      "pyrightconfig.json",
-    }
-    return util.root_pattern(unpack(root_files))(fname) or util.root_pattern ".git"(fname) or util.path.dirname(fname)
+  on_init = function(client)
+    client.config.settings.python.pythonPath = get_python_path(client.config.root_dir)
   end,
   before_init = function(_, config)
-    local stub_path = _G.join_paths(_G.get_runtime_dir(), "site", "pack", "packer", "opt", "python-type-stubs")
-    config.settings.python.analysis.stubPath = stub_path
+    config.settings.python.analysis.stubPath = path.concat {
+      vim.fn.stdpath "data",
+      "site",
+      "pack",
+      "packer",
+      "opt",
+      "python-type-stubs",
+    }
   end,
-  settings = {
-    pyright = {
-      disableLanguageServices = false,
-      disableOrganizeImports = false,
-    },
-    python = {
-      analysis = {
-        autoSearchPaths = true,
-        diagnosticMode = "workspace",
-        useLibraryCodeForTypes = true,
-      },
-    },
-  },
-  single_file_support = true,
 }
 
-require("lvim.lsp.manager").setup("pyright", opts)
+require("lvim.lsp.manager").setup("pylance", opts)
