@@ -66,7 +66,7 @@ lvim.builtin.legendary = { active = false } -- enable/disable legendary plugin (
 lvim.builtin.tree_provider = "nvimtree" -- can be "neo-tree" or "nvimtree" or ""
 lvim.builtin.lir.active = false
 lvim.builtin.breadcrumbs.active = false
-lvim.builtin.illuminate.active = false
+lvim.builtin.illuminate.active = true
 lvim.builtin.indentlines.active = true
 lvim.builtin.notify.active = true
 lvim.builtin.noice = { active = false }
@@ -150,3 +150,6 @@ require("user.keybindings").config()
 
 -- pylance custom lsp server
 require("plugins.config.lsp.custom.pylance")
+
+-- illuminate
+require ("user.illuminate")

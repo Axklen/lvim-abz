@@ -690,13 +690,13 @@ M.config = function()
       disable = not lvim.builtin.python_programming.active,
     },
     -- TODO: set this up when https://github.com/neovim/neovim/pull/20130 is merged
-    -- {
-    --   "lvimuser/lsp-inlayhints.nvim",
-    --   branch = "anticonceal",
-    --   config = function()
-    --     require("lsp-inlayhints").setup()
-    --   end,
-    -- },
+    {
+      "lvimuser/lsp-inlayhints.nvim",
+      branch = "anticonceal",
+      config = function()
+        require("lsp-inlayhints").setup()
+      end,
+    },
   }
 end
 
