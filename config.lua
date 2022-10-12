@@ -66,13 +66,13 @@ lvim.builtin.legendary = { active = false } -- enable/disable legendary plugin (
 lvim.builtin.tree_provider = "nvimtree" -- can be "neo-tree" or "nvimtree" or ""
 lvim.builtin.lir.active = false
 lvim.builtin.breadcrumbs.active = false
-lvim.builtin.illuminate.active = true
+lvim.builtin.illuminate.active = false
 lvim.builtin.indentlines.active = true
 lvim.builtin.notify.active = true
 lvim.builtin.noice = { active = false }
 lvim.builtin.go_programming = { active = false } -- gopher.nvim + nvim-dap-go
 lvim.builtin.python_programming = { active = false } -- swenv.nvim + nvim-dap-python
-lvim.builtin.web_programming = { active = false } -- typescript.nvim + package-info.nvimconfig
+lvim.builtin.web_programming = { active = false } -- typescript.nvim + package-info.nvim
 lvim.builtin.rust_programming = { active = false } -- rust_tools.nvim + crates.nvim
 lvim.builtin.cmp.cmdline.enable = false
 
@@ -88,7 +88,7 @@ end
 if lvim.builtin.winbar_provider == "navic" then
   vim.opt.showtabline = 1
   lvim.keys.normal_mode["<tab>"] =
-  "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false, initial_mode='normal'})<cr>"
+    "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false, initial_mode='normal'})<cr>"
   lvim.builtin.bufferline.active = false
   lvim.builtin.breadcrumbs.active = true
 end
@@ -150,6 +150,3 @@ require("user.keybindings").config()
 
 -- pylance custom lsp server
 require("plugins.config.lsp.custom.pylance")
-
--- illuminate
-require ("user.illuminate")
