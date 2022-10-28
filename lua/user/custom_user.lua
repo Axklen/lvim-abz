@@ -1,12 +1,12 @@
 local M = {}
 
 M.config = function()
-  -- WARN: these only work on neovim head
-  vim.opt.mousescroll = { "ver:1", "hor:6" }
-  vim.o.mousefocus = true
-  vim.o.mousemoveevent = true
-  vim.o.splitkeep = "screen"
-  ---
+  if vim.fn.has "nvim-0.9" == 1 then
+    vim.opt.mousescroll = { "ver:1", "hor:6" }
+    vim.o.mousefocus = true
+    vim.o.mousemoveevent = true
+    vim.o.splitkeep = "screen"
+  end
 
   lvim.builtin.lsp_lines = true
   vim.diagnostic.config { virtual_lines = false } -- i only want to use it explicitly ( by calling the toggle function)
@@ -15,7 +15,6 @@ M.config = function()
     vim.opt.cmdheight = 0
     vim.opt.laststatus = 0
     vim.g.tpipeline_cursormoved = 1
-    vim.g.tpipeline_clearstl = 1
   end
   lvim.builtin.custom_web_devicons = true
   lvim.use_icons = false -- only set to false if you know what are you doing
@@ -41,6 +40,8 @@ M.config = function()
   lvim.builtin.python_programming.active = true
   lvim.builtin.web_programming.active = true
   lvim.builtin.rust_programming.active = true
+  lvim.builtin.borderless_cmp = true
+  lvim.builtin.colored_args = true
   -- require("lvim.lsp.manager").setup("prosemd_lsp", {})
 end
 

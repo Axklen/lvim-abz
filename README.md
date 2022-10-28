@@ -442,6 +442,9 @@ _Symbols Outline_
 - [overseer.nvim](https://github.com/stevearc/overseer.nvim)
 - [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim/blob/v2.x)
 - [noice.nvim](https://github.com/folke/noice.nvim)
+- [nvim-dap-vscode-js](https://github.com/mxsdev/nvim-dap-vscode-js)
+- [inc-rename](https://github.com/smjonas/inc-rename.nvim)
+- [hlargs.nvim](https://github.com/m-demare/hlargs.nvim)
 
 </details>
 

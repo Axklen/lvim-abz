@@ -5,24 +5,105 @@ M.config = function()
   if not status_ok then
     return
   end
+  local spinners = require "noice.util.spinners"
+  spinners.spinners["mine"] = {
+    frames = {
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+      " ",
+    },
+    interval = 80,
+  }
   noice.setup {
+    format = {
+      spinner = {
+        name = "mine",
+        hl = "Constant",
+      },
+    },
+    lsp = {
+      progress = {
+        enabled = false,
+        format = {
+          { "{data.progress.percentage} ", hl_group = "Comment" },
+          { "{spinner} ", hl_group = "NoiceLspProgressSpinner" },
+          { "{data.progress.title} ", hl_group = "Comment" },
+        },
+        format_done = {},
+      },
+      hover = { enabled = true },
+      signature = { enabled = false, auto_open = false },
+    },
     cmdline = {
-      view = "cmdline",
+      format = {
+        filter = { pattern = "^:%s*!", icon = "", ft = "sh" },
+        IncRename = {
+          pattern = "^:%s*IncRename%s+",
+          icon = " ",
+          conceal = true,
+          opts = {
+            -- relative = "cursor",
+            -- size = { min_width = 20 },
+            -- position = { row = -3, col = 0 },
+            buf_options = { filetype = "text" },
+          },
+        },
+      },
+    },
+    views = {
+      cmdline_popup = {
+        win_options = {
+          winblend = 5,
+          winhighlight = {
+            Normal = "NormalFloat",
+            FloatBorder = "NoiceCmdlinePopupBorder",
+            IncSearch = "",
+            Search = "",
+          },
+          cursorline = false,
+        },
+      },
     },
     popupmenu = {
       enabled = not lvim.builtin.fancy_wild_menu.active,
     },
-    notify = {
-      enabled = false,
-    },
     routes = {
+      {
+        view = "notify",
+        filter = { event = "msg_showmode" },
+      },
       {
         filter = { event = "msg_show", kind = "search_count" },
         opts = { skip = true },
       },
       {
         view = "split",
-        filter = { event = "msg_show", min_height = 20 },
+        filter = { event = "msg_show", min_height = 10 },
       },
       {
         filter = {

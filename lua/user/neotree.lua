@@ -21,6 +21,10 @@ M.config = function()
         folder_closed = tree_icons.folder.default,
         folder_open = tree_icons.folder.open,
         folder_empty = tree_icons.folder.empty_open,
+        -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
+        -- then these will never be used.
+        default = "",
+        highlight = "NeoTreeFileIcon",
       },
       modified = {
         symbol = " ",
@@ -34,7 +38,7 @@ M.config = function()
       width = 30,
     },
     filesystem = {
-      group_empty_dirs = true,
+      group_empty_dirs = false,
       filtered_items = {
         visible = false,
         hide_dotfiles = true,
@@ -64,6 +68,7 @@ M.config = function()
         position = "float",
       },
     },
+    close_if_last_window = true,
     event_handlers = {
       {
         event = "vim_buffer_enter",

@@ -16,45 +16,43 @@ M.config = function()
         require("surround").setup { mappings_style = "sandwich" }
       end,
     },
-    {
-      "rose-pine/neovim",
-      as = "rose-pine",
-      config = function()
-        require("user.theme").rose_pine()
-        vim.cmd [[colorscheme rose-pine]]
-      end,
-      cond = function()
-        local _time = os.date "*t"
-        return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
-      end,
-    },
+    -- {
+    --   "rose-pine/neovim",
+    --   as = "rose-pine",
+    --   config = function()
+    --     require("user.theme").rose_pine()
+    --     vim.cmd [[colorscheme rose-pine]]
+    --   end,
+    --   cond = function()
+    --     local _time = os.date "*t"
+    --     return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
+    --   end,
+    -- },
     {
       "catppuccin/nvim",
       as = "catppuccin",
-      setup = function()
-        vim.g.catppuccin_flavour = "mocha"
-      end,
+      run = ":CatppuccinCompile",
       config = function()
         require("user.theme").catppuccin()
-        vim.cmd [[colorscheme catppuccin]]
+        vim.cmd [[colorscheme catppuccin-mocha]]
       end,
       cond = function()
         local _time = os.date "*t"
-        return (_time.hour >= 17 and _time.hour < 21) and lvim.builtin.time_based_themes
+        return (_time.hour >= 0 and _time.hour <= 24) and lvim.builtin.time_based_themes
       end,
     },
-    {
-      "rebelot/kanagawa.nvim",
-      config = function()
-        require("user.theme").kanagawa()
-        vim.cmd [[colorscheme kanagawa]]
-      end,
-      cond = function()
-        local _time = os.date "*t"
-        return ((_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1))
-          and lvim.builtin.time_based_themes
-      end,
-    },
+    -- {
+    --   "rebelot/kanagawa.nvim",
+    --   config = function()
+    --     require("user.theme").kanagawa()
+    --     vim.cmd [[colorscheme kanagawa]]
+    --   end,
+    --   cond = function()
+    --     local _time = os.date "*t"
+    --     return ((_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1))
+    --       and lvim.builtin.time_based_themes
+    --   end,
+    -- },
     {
       "ray-x/lsp_signature.nvim",
       config = function()
@@ -519,6 +517,7 @@ M.config = function()
       config = function()
         require("user.fidget_spinner").config()
       end,
+      -- disable = lvim.builtin.noice.active,
     },
     {
       "michaelb/sniprun",
@@ -688,6 +687,42 @@ M.config = function()
       ft = "python",
       event = { "BufRead", "BufNew" },
       disable = not lvim.builtin.python_programming.active,
+    },
+    {
+      "mxsdev/nvim-dap-vscode-js",
+      ft = {
+        "javascript",
+        "javascriptreact",
+        "javascript.jsx",
+        "typescript",
+        "typescriptreact",
+        "typescript.tsx",
+      },
+      opt = true,
+      event = { "BufReadPre", "BufNew" },
+      config = function()
+        require("dap-vscode-js").setup {
+          debugger_path = vim.fn.stdpath "data" .. "/mason/packages/js-debug-adapter",
+          debugger_cmd = { "js-debug-adapter" },
+          adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+        }
+      end,
+      disable = not lvim.builtin.web_programming.active,
+    },
+    {
+      "smjonas/inc-rename.nvim",
+      config = function()
+        require("inc_rename").setup()
+      end,
+      disable = not lvim.builtin.noice.active,
+    },
+    {
+      "m-demare/hlargs.nvim",
+      config = function()
+        require("hlargs").setup()
+      end,
+      requires = { "nvim-treesitter/nvim-treesitter" },
+      disable = not lvim.builtin.colored_args,
     },
     -- TODO: set this up when https://github.com/neovim/neovim/pull/20130 is merged
     -- {
