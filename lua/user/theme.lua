@@ -413,7 +413,7 @@ M.telescope_theme = function()
 
   -- NOTE: these are my personal preferences
   if lvim.builtin.time_based_themes then
-    -- local _time = os.date "*t"
+    local _time = os.date "*t"
     local current_colors = M.current_colors()
     set_fg_bg("Hlargs", current_colors.hlargs, "none")
     set_fg_bg("CmpBorder", current_colors.cmp_border, current_colors.cmp_border)
