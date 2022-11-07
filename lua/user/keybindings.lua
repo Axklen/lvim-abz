@@ -64,17 +64,6 @@ M.set_hop_keymaps = function()
   )
 end
 
-M.set_lightspeed_keymaps = function()
-  vim.cmd [[
-nmap s <Plug>Lightspeed_s
-nmap S <Plug>Lightspeed_S
-nmap <expr> f reg_recording() . reg_executing() == "" ? "<Plug>Lightspeed_f" : "f"
-nmap <expr> F reg_recording() . reg_executing() == "" ? "<Plug>Lightspeed_F" : "F"
-nmap <expr> t reg_recording() . reg_executing() == "" ? "<Plug>Lightspeed_t" : "t"
-nmap <expr> T reg_recording() . reg_executing() == "" ? "<Plug>Lightspeed_T" : "T"
-  ]]
-end
-
 M.set_hlslens_keymaps = function()
   local opts = { noremap = true, silent = true }
   vim.api.nvim_set_keymap(
@@ -204,6 +193,10 @@ M.set_lsp_lines_keymap = function()
 end
 
 M.config = function()
+  -- cinnamon:
+  vim.keymap.set({ "n", "x" }, "<S-Up>", "<Cmd>lua Scroll('<C-b>', 1, 1)<CR>")
+  vim.keymap.set({ "n", "x" }, "<S-Down>", "<Cmd>lua Scroll('<C-f>', 1, 1)<CR>")
+
   -- Additional keybindings
   -- =========================================
   lvim.keys.normal_mode["<CR>"] = {

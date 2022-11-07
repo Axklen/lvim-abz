@@ -17,17 +17,28 @@ M.config = function()
       end,
     },
     -- {
-    --   "rose-pine/neovim",
-    --   as = "rose-pine",
+    --   "folke/tokyonight.nvim",
     --   config = function()
-    --     require("user.theme").rose_pine()
-    --     vim.cmd [[colorscheme rose-pine]]
+    --     require("user.theme").tokyonight()
+    --     vim.cmd [[colorscheme tokyonight]]
     --   end,
     --   cond = function()
     --     local _time = os.date "*t"
-    --     return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
+    --     return (_time.hour >= 9 and _time.hour < 17) and lvim.builtin.time_based_themes
     --   end,
     -- },
+    {
+      "rose-pine/neovim",
+      as = "rose-pine",
+      config = function()
+        require("user.theme").rose_pine()
+        vim.cmd [[colorscheme rose-pine]]
+      end,
+      cond = function()
+        local _time = os.date "*t"
+        return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
+      end,
+    },
     {
       "catppuccin/nvim",
       as = "catppuccin",
@@ -38,21 +49,21 @@ M.config = function()
       end,
       cond = function()
         local _time = os.date "*t"
-        return (_time.hour >= 0 and _time.hour <= 24) and lvim.builtin.time_based_themes
+        return (_time.hour >= 17 and _time.hour < 21) and lvim.builtin.time_based_themes
       end,
     },
-    -- {
-    --   "rebelot/kanagawa.nvim",
-    --   config = function()
-    --     require("user.theme").kanagawa()
-    --     vim.cmd [[colorscheme kanagawa]]
-    --   end,
-    --   cond = function()
-    --     local _time = os.date "*t"
-    --     return ((_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1))
-    --       and lvim.builtin.time_based_themes
-    --   end,
-    -- },
+    {
+      "rebelot/kanagawa.nvim",
+      config = function()
+        require("user.theme").kanagawa()
+        vim.cmd [[colorscheme kanagawa]]
+      end,
+      cond = function()
+        local _time = os.date "*t"
+        return ((_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1))
+          and lvim.builtin.time_based_themes
+      end,
+    },
     {
       "ray-x/lsp_signature.nvim",
       config = function()
@@ -90,11 +101,11 @@ M.config = function()
       cmd = "Trouble",
     },
     {
-      "ggandor/lightspeed.nvim",
+      "ggandor/leap.nvim",
       config = function()
-        require("user.lightspeed").config()
+        require("user.leap").config()
       end,
-      disable = lvim.builtin.motion_provider ~= "lightspeed",
+      disable = lvim.builtin.motion_provider ~= "leap",
     },
     {
       "phaazon/hop.nvim",
@@ -369,6 +380,7 @@ M.config = function()
           default_keymaps = true,
           default_delay = 4,
           extra_keymaps = true,
+          override_keymaps = true,
           extended_keymaps = false,
           centered = true,
           scroll_limit = 100,
@@ -598,7 +610,7 @@ M.config = function()
       config = function()
         require("user.winb").config()
       end,
-      event = { "InsertEnter", "CursorMoved" },
+      event = { "InsertEnter", "CursorHoldI" },
       disable = lvim.builtin.winbar_provider ~= "treesitter",
     },
     {
@@ -608,7 +620,7 @@ M.config = function()
         require("user.gps").config()
       end,
       requires = "nvim-treesitter/nvim-treesitter",
-      event = { "InsertEnter", "CursorMoved" },
+      event = { "InsertEnter", "CursorHoldI" },
       disable = lvim.builtin.winbar_provider ~= "treesitter",
     },
     {

@@ -1,9 +1,8 @@
 -- Neovim
 -- based on "abzcoding/lvim"
 -- =========================================
-lvim.format_on_save = false
 lvim.leader = " "
-lvim.colorscheme = "catppuccin" -- set to a custom theme
+lvim.colorscheme = "tokyonight" -- set to a custom theme
 lvim.builtin.time_based_themes = true -- set false to use your own configured theme
 lvim.transparent_window = false -- enable/disable transparency
 lvim.debug = false
@@ -13,7 +12,7 @@ lvim.log.level = "warn"
 require("user.neovim").config()
 lvim.lsp.code_lens_refresh = true
 lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
-lvim.lsp.automatic_servers_installation = false
+lvim.lsp.installer.setup.automatic_installation = false
 
 -- Customization
 -- =========================================
@@ -31,14 +30,14 @@ lvim.builtin.lua_dev = { active = true } -- change this to enable/disable folke/
 lvim.builtin.test_runner = { active = true, runner = "ultest" } -- change this to enable/disable ultest or neotest
 lvim.builtin.cheat = { active = false } -- enable/disable cheat.sh integration
 lvim.builtin.sql_integration = { active = false } -- use sql integration
-lvim.builtin.smooth_scroll = "" -- for smoth scrolling, can be "cinnamon", "neoscroll" or ""
+lvim.builtin.smooth_scroll = "neoscroll" -- for smoth scrolling, can be "cinnamon", "neoscroll" or ""
 lvim.builtin.neoclip = { active = true, enable_persistent_history = false }
 lvim.builtin.nonumber_unfocus = false -- diffrentiate between focused and non focused windows
 lvim.builtin.custom_web_devicons = false -- install https://github.com/Nguyen-Hoang-Nam/mini-file-icons
 lvim.builtin.harpoon = { active = true } -- use the harpoon plugin
 lvim.builtin.remote_dev = { active = false } -- enable/disable remote development
 lvim.builtin.cursorline = { active = false } -- use a bit fancier cursorline
-lvim.builtin.motion_provider = "hop" -- change this to use different motion providers ( hop or lightspeed )
+lvim.builtin.motion_provider = "hop" -- change this to use different motion providers ( hop or leap )
 lvim.builtin.hlslens = { active = false } -- enable/disable hlslens
 lvim.builtin.csv_support = false -- enable/disable csv support
 lvim.builtin.sidebar = { active = false } -- enable/disable sidebar
@@ -132,13 +131,11 @@ vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, {
   "golangci_lint_ls",
   "jdtls",
   "pyright",
-  "pylance",
   "rust_analyzer",
   "taplo",
   "texlab",
   "tsserver",
   "yamlls",
-  "emmet_ls",
 })
 require("user.null_ls").config()
 
@@ -153,6 +150,3 @@ require("user.autocommands").config()
 -- Additional Keybindings
 -- =========================================
 require("user.keybindings").config()
-
--- pylance custom lsp server
-require("plugins.config.lsp.custom.pylance")

@@ -75,7 +75,7 @@ M.config = function()
         return vim_item
       end
       vim_item.kind =
-      string.format("%s %s", kind.cmp_kind[vim_item.kind] or " ", cmp_sources[entry.source.name] or vim_item.kind)
+        string.format("%s %s", kind.cmp_kind[vim_item.kind] or " ", cmp_sources[entry.source.name] or vim_item.kind)
 
       return vim_item
     end
@@ -297,7 +297,10 @@ M.config = function()
   -- Noice
   -- =========================================
   if lvim.builtin.noice.active then
-    vim.lsp.handlers["textDocument/signatureHelp"] = require("noice.util").protect(require("noice.lsp").signature)
+    local found, noice_util = pcall(require, "noice.util")
+    if found then
+      vim.lsp.handlers["textDocument/signatureHelp"] = noice_util.protect(require("noice.lsp").signature)
+    end
   end
 
   -- NvimTree
@@ -323,9 +326,8 @@ M.config = function()
 
   -- Theme
   -- =========================================
-  lvim.builtin.theme.options.style = "storm"
-  lvim.builtin.theme.options.styles.comments = {}
-  lvim.builtin.theme.options.dim_inactive = true
+  require("user.theme").tokyonight()
+  lvim.builtin.theme.name = "tokyonight"
 
   -- Toggleterm
   -- =========================================
@@ -838,7 +840,7 @@ M.lsp_on_attach_callback = function(client, _)
     mappings["lu"] = { "<cmd>TypescriptRemoveUnused<Cr>", "RemoveUnused" }
     mappings["lF"] = { "<cmd>TypescriptFixAll<Cr>", "FixAll" }
     mappings["lg"] = { "<cmd>TypescriptGoToSourceDefinition<Cr>", "GoToSourceDefinition" }
-  elseif client.name == "pyright" or client.name == "pylance"  then
+  elseif client.name == "pyright" then
     if lvim.builtin.python_programming.active then
       mappings["df"] = { "<cmd>lua require('dap-python').test_class()<cr>", "Test Class" }
       mappings["dm"] = { "<cmd>lua require('dap-python').test_method()<cr>", "Test Method" }
