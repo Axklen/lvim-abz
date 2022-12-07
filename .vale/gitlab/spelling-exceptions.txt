@@ -42,6 +42,7 @@ ChaosKube
 ChatOps
 Citrix
 Citus
+ClickJacking
 Cloudwatch
 Cobertura
 Codepen
@@ -62,6 +63,7 @@ Datadog
 Debian
 Decompressor
 Denormalization
+Deserialization
 Deserializer
 DevOps
 Disqus
@@ -78,6 +80,7 @@ ETag
 Ecto
 Elasticsearch
 Excon
+Exfiltrate
 Facebook
 Falco
 Fastzip
@@ -129,6 +132,7 @@ Immer
 Ingress
 Inode
 Istio
+JSONP
 Jaeger
 JavaScript
 Javafuzz
@@ -187,6 +191,7 @@ Nanoc
 Neogen
 Neoscroll
 Neovim
+Netcat
 Netlify
 Nginx
 Nokogiri
@@ -239,6 +244,7 @@ Semgrep
 Sendmail
 Sentry
 Shibboleth
+Shodan
 Shopify
 Sidekiq
 Silverlight
@@ -291,6 +297,7 @@ Webservice
 Wireshark
 Wordpress
 Worldline
+XInclude
 Xcode
 Xeon
 YouTrack
@@ -422,6 +429,9 @@ deprovisions
 dequarantine
 dequarantined
 dequarantining
+deserialization
+deserialize
+dirsearch
 disambiguates
 discoverability
 dismissable
@@ -436,6 +446,7 @@ enqueued
 enqueues
 enum
 enums
+exfiltration
 expirable
 failover
 failovers
@@ -455,7 +466,9 @@ fuzzer
 gb
 gettext
 gitlabsos
+gitrob
 globals
+gobuster
 goroutine
 goroutines
 goto
@@ -495,6 +508,7 @@ jumplist
 kanban
 kanbans
 kaniko
+keyhacks
 keyset
 keyspace
 keytab
@@ -561,6 +575,7 @@ namespacing
 namespacings
 negatable
 neovim
+nmap
 noteable
 noteables
 npm
@@ -578,6 +593,7 @@ parallelization
 parallelizations
 paravirtualization
 passwordless
+pastebin
 performant
 pgLoader
 phaser
@@ -709,6 +725,7 @@ sparkline
 sparklines
 spectre
 spidering
+sqlmap
 starrer
 starrers
 storable
@@ -718,6 +735,7 @@ strikethrough
 strikethroughs
 stunnel
 stylelint
+subbrute
 subchart
 subcharts
 subfolder
@@ -798,6 +816,7 @@ treesitter
 triaged
 triages
 triaging
+truffleHog
 truthy
 ui
 unapplied
@@ -912,6 +931,7 @@ virtualizing
 vulnerabilities
 walkthrough
 walkthroughs
+wayback
 webpack
 webserver
 websocket
@@ -924,4 +944,3 @@ wireframes
 wireframing
 worktree
 worktrees
-z

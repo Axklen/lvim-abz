@@ -308,6 +308,9 @@ M.config = function()
   lvim.builtin.which_key.mappings["H"] = " Help"
   lvim.builtin.which_key.mappings["h"] = { "<cmd>nohlsearch<CR>", " No Highlight" }
   lvim.builtin.which_key.mappings.g.name = " Git"
+  if lvim.builtin.inlay_hints.active then
+    lvim.builtin.which_key.mappings["I"] = { "<cmd>lua require('lsp-inlayhints').toggle()<cr>", " Toggle Inlay" }
+  end
   lvim.builtin.which_key.mappings.l.name = " LSP"
   lvim.builtin.which_key.mappings["f"] = {
     require("user.telescope").find_project_files,
@@ -384,6 +387,12 @@ M.config = function()
     f = { "<cmd>lua require('spectre').open_file_search()<cr>", "Current Buffer" },
     p = { "<cmd>lua require('spectre').open()<cr>", "Project" },
     w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Replace Word" },
+    s = {
+      function()
+        require("ssr").open()
+      end,
+      "Structural replace",
+    },
   }
   lvim.builtin.which_key.mappings.s.name = " Search"
   lvim.builtin.which_key.mappings["ss"] = {
@@ -434,6 +443,12 @@ M.config = function()
   lvim.builtin.which_key.vmappings["g"] = {
     name = " Git",
     s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
+  }
+  lvim.builtin.which_key.vmappings["r"] = {
+    function()
+      require("ssr").open()
+    end,
+    "Structural replace",
   }
 
   -- My wezterm is weird

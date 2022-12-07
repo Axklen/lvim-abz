@@ -10,6 +10,7 @@ M.config = function()
   if not status_ok then
     return
   end
+  local vale_config = vim.env.HOME .. "/.vale.ini"
   local semgrep_rule_folder = vim.env.HOME .. "/.config/semgrep/semgrep-rules/"
   local use_semgrep = false
   if vim.fn.filereadable(semgrep_rule_folder .. "template.yaml") then
@@ -79,9 +80,11 @@ M.config = function()
     nls.builtins.diagnostics.statix,
     nls.builtins.diagnostics.markdownlint.with {
       filetypes = { "markdown" },
+      extra_args = { "-r", "~MD013" },
     },
     nls.builtins.diagnostics.vale.with {
       filetypes = { "markdown" },
+      extra_args = { "--config", vale_config },
     },
     nls.builtins.diagnostics.revive.with {
       condition = function(utils)
@@ -110,6 +113,10 @@ M.config = function()
         filetypes = { "typescript", "javascript", "lua", "c", "cpp", "go", "python", "java", "php" },
       }
     )
+  end
+  local ts_found, typescript_code_actions = pcall(require, "typescript.extensions.null-ls.code-actions")
+  if ts_found then
+    table.insert(sources, typescript_code_actions)
   end
 
   -- you can either config null-ls itself

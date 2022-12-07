@@ -36,6 +36,7 @@ based on [abzcoding/lvim](https://github.com/abzcoding/lvim), atm it is mostly a
   - [Plugin: Ultest](#plugin-ultest)
   - [Plugin: Neotest](#plugin-neotest)
   - [Plugin: Spectre](#plugin-spectre)
+  - [Plugin: SSR](#plugin-ssr)
   - [Plugin: Copilot](#plugin-copilot)
   - [Plugin: Lsp_Lines](#plugin-lsp_lines)
   - [Plugin: Overseer](#plugin-overseer)
@@ -399,6 +400,7 @@ _Symbols Outline_
 - [clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim)
 - [crates.nvim](https://github.com/Saecki/crates.nvim)
 - [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim)
+- [ssr.nvim](https://github.com/cshuaimin/ssr.nvim)
 
 ### Optional Plugins
 
@@ -445,6 +447,8 @@ _Symbols Outline_
 - [nvim-dap-vscode-js](https://github.com/mxsdev/nvim-dap-vscode-js)
 - [inc-rename](https://github.com/smjonas/inc-rename.nvim)
 - [hlargs.nvim](https://github.com/m-demare/hlargs.nvim)
+- [cmake-tools.nvim](https://github.com/Civitasv/cmake-tools.nvim)
+- [lsp-inlayhints.nvim](https://github.com/lvimuser/lsp-inlayhints.nvim)
 
 </details>
 
@@ -509,15 +513,15 @@ Note that,
 
 ### Motion
 
-| Key                         | Mode | Action                  | Plugin or Mapping                                                   |
-| --------------------------- | :--: | ----------------------- | ------------------------------------------------------------------- |
+| Key                         | Mode | Action                  | Plugin or Mapping                                             |
+| --------------------------- | :--: | ----------------------- | ------------------------------------------------------------- |
 | <kbd>f</kbd>                |  𝐍   | find next character     | <small>HopChar1CurrentLineAC</small> or <small>leap_f</small> |
 | <kbd>F</kbd>                |  𝐍   | find previous character | <small>HopChar1CurrentLineBC</small> or <small>leap_F</small> |
 | <kbd>s</kbd>                |  𝐍   | find character          | <small>HopChar2MW</small> or <small>leap_s</small>            |
 | <kbd>S</kbd>                |  𝐍   | find word               | <small>HopWordMW</small> or <small>leap_S</small>             |
-| <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐈   | select all              | <small>ggVG</small>                                                 |
-| <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐍   | increment number        | <small>C-A</small>                                                  |
-| <kbd>Alt</kbd>+<kbd>x</kbd> |  𝐍   | decrement number        | <small>C-X</small>                                                  |
+| <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐈   | select all              | <small>ggVG</small>                                           |
+| <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐍   | increment number        | <small>C-A</small>                                            |
+| <kbd>Alt</kbd>+<kbd>x</kbd> |  𝐍   | decrement number        | <small>C-X</small>                                            |
 
 ### LSP
 
@@ -691,6 +695,13 @@ Note that,
 | <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>p</kbd> |  𝐍   | Replace word in project        |
 | <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>w</kbd> |  𝐍   | Replace visually selected word |
 | <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>f</kbd> |  𝐍   | Replace word in current buffer |
+
+### Plugin: SSR
+
+| Key                                        | Mode | Action                                          |
+| ------------------------------------------ | :--: | ----------------------------------------------- |
+| <kbd>Space</kbd>+<kbd>r</kbd>              |  𝐕   | Structural replace confirm using `<leader><cr>` |
+| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>s</kbd> |  𝐍   | Structural replace confirm using `<leader><cr>` |
 
 ### Plugin: Copilot
 

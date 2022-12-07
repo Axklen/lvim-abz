@@ -420,7 +420,7 @@ M.config = function()
     {
       "sindrets/diffview.nvim",
       opt = true,
-      cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+      cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
       module = "diffview",
       keys = { "<leader>gd", "<leader>gh" },
       config = function()
@@ -484,9 +484,7 @@ M.config = function()
       disable = not lvim.builtin.csv_support,
     },
     {
-      -- NOTE: https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues/316
-      "numToStr/nvim-treesitter-textobjects",
-      branch = "rust/let-expr",
+      "nvim-treesitter/nvim-treesitter-textobjects",
       after = "nvim-treesitter",
     },
     {
@@ -551,7 +549,8 @@ M.config = function()
       config = function()
         require("user.cle").config()
       end,
-      ft = { "c", "cpp", "objc", "objcpp" },
+      ft = { "c", "cpp", "objc", "objcpp", "h", "hpp" },
+      disable = not lvim.builtin.cpp_programming.active,
     },
     {
       "editorconfig/editorconfig-vim",
@@ -738,14 +737,37 @@ M.config = function()
       requires = { "nvim-treesitter/nvim-treesitter" },
       disable = not lvim.builtin.colored_args,
     },
-    -- TODO: set this up when https://github.com/neovim/neovim/pull/20130 is merged
-    -- {
-    --   "lvimuser/lsp-inlayhints.nvim",
-    --   branch = "anticonceal",
-    --   config = function()
-    --     require("lsp-inlayhints").setup()
-    --   end,
-    -- },
+    {
+      "cshuaimin/ssr.nvim",
+      config = function()
+        require("ssr").setup {
+          min_width = 50,
+          min_height = 5,
+          keymaps = {
+            close = "q",
+            next_match = "n",
+            prev_match = "N",
+            replace_all = "<leader><cr>",
+          },
+        }
+      end,
+      event = { "BufReadPost", "BufNew" },
+    },
+    {
+      "Civitasv/cmake-tools.nvim",
+      config = function()
+        require("user.cle").cmake_config()
+      end,
+      ft = { "c", "cpp", "objc", "objcpp", "h", "hpp" },
+      disable = not lvim.builtin.cpp_programming.active,
+    },
+    {
+      "lvimuser/lsp-inlayhints.nvim",
+      config = function()
+        require("lsp-inlayhints").setup()
+      end,
+      disable = not lvim.builtin.inlay_hints.active,
+    },
   }
 end
 
