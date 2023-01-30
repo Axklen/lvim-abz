@@ -1,6 +1,12 @@
-# My LunarVim Config
+ALL is heavily based on https://github.com/abzcoding/
 
-based on [abzcoding/lvim](https://github.com/abzcoding/lvim), atm it is mostly a fork ;)
+# Bloated LunarVim
+
+Do not use as is, use it as a source of inspiration.
+
+I've customized my ZSH/Tmux/[Wezterm](https://github.com/abzcoding/wezterm) too much, so it might not work properly 😅
+
+![141789968-ed61958c-9154-4774-b2e2-dfabe48d9660](https://user-images.githubusercontent.com/10992695/141791560-5062246a-056c-4a73-afa7-3152e6ad396e.jpg)
 
 <details open>
   <summary>
@@ -41,6 +47,7 @@ based on [abzcoding/lvim](https://github.com/abzcoding/lvim), atm it is mostly a
   - [Plugin: Lsp_Lines](#plugin-lsp_lines)
   - [Plugin: Overseer](#plugin-overseer)
   - [Plugin: NeoTree](#plugin-neotree)
+  - [Plugin: Mind](#plugin-mind)
 - [Troubleshooting](#troubleshooting)
 
 <!-- vim-markdown-toc -->
@@ -168,7 +175,7 @@ brew install node
 mv ~/.config/lvim ~/.config/lvim_backup
 git clone https://github.com/abzcoding/lvim.git ~/.config/lvim
 lvim +LvimUpdate +LvimCacheReset +q
-lvim # run :PackerSync
+lvim # run :Lazy sync
 ```
 
 ### Java
@@ -218,7 +225,7 @@ Use `Tab` to list available servers.
 ```shell
 cd ~/.config/lvim
 git pull
-lvim # run :PackerSync
+lvim # run :Lazy sync
 ```
 
 ### Recommended Linters
@@ -449,6 +456,7 @@ _Symbols Outline_
 - [hlargs.nvim](https://github.com/m-demare/hlargs.nvim)
 - [cmake-tools.nvim](https://github.com/Civitasv/cmake-tools.nvim)
 - [lsp-inlayhints.nvim](https://github.com/lvimuser/lsp-inlayhints.nvim)
+- [mind.nvim](https://github.com/phaazon/mind.nvim)
 
 </details>
 
@@ -750,6 +758,20 @@ Note that,
 | <kbd>l</kbd>                  |  𝐍   | Open                             |
 | <kbd>P</kbd>                  |  𝐍   | Toggle preview                   |
 | <kbd>/</kbd>                  |  𝐍   | Fuzzy finder                     |
+
+### Plugin: Mind
+
+| Key                                        | Mode | Action            |
+| ------------------------------------------ | :--: | ----------------- |
+| <kbd>Space</kbd>+<kbd>M</kbd>+<kbd>M</kbd> |  𝐍   | Open Main Tree    |
+| <kbd>Space</kbd>+<kbd>M</kbd>+<kbd>m</kbd> |  𝐍   | Open Local Tree   |
+| <kbd><cr></kbd>                            |  𝐍   | open data         |
+| <kbd><tab></kbd>                           |  𝐍   | toggle node       |
+| <kbd><s-tab></kbd>                         |  𝐍   | toggle parent     |
+| <kbd>/</kbd>                               |  𝐍   | select path       |
+| <kbd>$</kbd>                               |  𝐍   | change icons menu |
+| <kbd>c</kbd>                               |  𝐍   | create new node   |
+| <kbd>q</kbd>                               |  𝐍   | quit              |
 
 </details>
 
