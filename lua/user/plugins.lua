@@ -6,16 +6,6 @@ M.config = function()
     neoclip_req = {}
   end
   lvim.plugins = {
-    {
-      "microsoft/python-type-stubs",
-      opt = true,
-    },
-    {
-      "ur4ltz/surround.nvim",
-      config = function()
-        require("surround").setup { mappings_style = "sandwich" }
-      end,
-    },
     -- {
     --   "folke/tokyonight.nvim",
     --   config = function()
@@ -35,8 +25,9 @@ M.config = function()
         lvim.colorscheme = "rose-pine"
       end,
       cond = function()
-        local _time = os.date "*t"
-        return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
+        -- local _time = os.date "*t"
+        -- return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
+        return false
       end,
     },
     {
@@ -45,7 +36,10 @@ M.config = function()
       config = function()
         require("user.theme").catppuccin()
         local _time = os.date "*t"
-        if (_time.hour >= 17 and _time.hour < 21) and lvim.builtin.time_based_themes then
+        if
+          ((_time.hour >= 17 and _time.hour < 21) or (_time.hour >= 1 and _time.hour < 9))
+          and lvim.builtin.time_based_themes
+        then
           lvim.colorscheme = "catppuccin-mocha"
         end
       end,
@@ -147,7 +141,7 @@ M.config = function()
     },
     {
       "kevinhwang91/nvim-bqf",
-      event = "BufReadPost",
+      event = "WinEnter",
       config = function()
         require("user.bqf").config()
       end,
@@ -288,6 +282,7 @@ M.config = function()
       end,
       ft = "tex",
       event = "VeryLazy",
+      enabled = lvim.builtin.latex.active,
     },
     {
       "nvim-neotest/neotest",
@@ -385,7 +380,6 @@ M.config = function()
           default_keymaps = true,
           default_delay = 4,
           extra_keymaps = true,
-          override_keymaps = true,
           extended_keymaps = false,
           centered = true,
           scroll_limit = 100,
@@ -552,7 +546,7 @@ M.config = function()
         require("user.cle").config()
       end,
       ft = { "c", "cpp", "objc", "objcpp", "h", "hpp" },
-      enabled = not lvim.builtin.cpp_programming.active,
+      enabled = lvim.builtin.cpp_programming.active,
     },
     {
       "editorconfig/editorconfig-vim",
@@ -577,6 +571,7 @@ M.config = function()
       config = function()
         require("user.legendary").config()
       end,
+      event = "VimEnter",
       enabled = lvim.builtin.legendary.active,
     },
     {
@@ -741,7 +736,9 @@ M.config = function()
       lazy = true,
       event = "VeryLazy",
       config = function()
-        require("hlargs").setup()
+        require("hlargs").setup {
+          excluded_filetype = { "TelescopePrompt", "guihua", "guihua_rust", "clap_input" },
+        }
       end,
       dependencies = { "nvim-treesitter/nvim-treesitter" },
       enabled = lvim.builtin.colored_args,

@@ -102,9 +102,10 @@ if lvim.builtin.breadcrumbs.active and lvim.builtin.noice.active then
 end
 lvim.builtin.nvimtree.active = lvim.builtin.tree_provider == "nvimtree"
 lvim.builtin.latex = {
-  view_method = "skim", -- change to zathura if you are on linux
-  preview_exec = "/Applications/Skim.app/Contents/SharedSupport/displayline", -- change this to zathura as well
+  view_method = "zathura", -- change to zathura if you are on linux
+  preview_exec = "zathura", -- change this to zathura as well
   rtl_support = true, -- if you want to use xelatex, it's a bit slower but works very well for RTL langs
+  active = false, -- set to true to enable
 }
 if lvim.builtin.cursorline.active then
   lvim.lsp.document_highlight = false
