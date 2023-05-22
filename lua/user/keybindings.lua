@@ -193,10 +193,6 @@ M.set_lsp_lines_keymap = function()
 end
 
 M.config = function()
-  -- cinnamon:
-  vim.keymap.set({ "n", "x" }, "<S-Up>", "<Cmd>lua Scroll('<C-b>', 1, 1)<CR>")
-  vim.keymap.set({ "n", "x" }, "<S-Down>", "<Cmd>lua Scroll('<C-f>', 1, 1)<CR>")
-
   -- Additional keybindings
   -- =========================================
   lvim.keys.normal_mode["<CR>"] = {

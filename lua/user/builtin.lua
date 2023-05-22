@@ -321,8 +321,10 @@ M.config = function()
       error = kind.icons.error,
     },
   }
-  lvim.builtin.nvimtree.on_config_done = function(_)
-    lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeToggle<CR>", " Explorer" }
+  if lvim.builtin.tree_provider == "nvimtree" then
+    lvim.builtin.nvimtree.on_config_done = function(_)
+      lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeToggle<CR>", " Explorer" }
+    end
   end
   -- lvim.builtin.nvimtree.hide_dotfiles = 0
 
@@ -353,11 +355,11 @@ M.config = function()
   local languages = vim.tbl_flatten {
     { "bash", "c", "c_sharp", "cmake", "comment", "cpp", "css", "d", "dart" },
     { "dockerfile", "elixir", "elm", "erlang", "fennel", "fish", "go", "gomod" },
-    { "gomod", "graphql", "hcl", "help", "html", "java", "javascript", "jsdoc" },
+    { "gomod", "graphql", "hcl", "vimdoc", "html", "java", "javascript", "jsdoc" },
     { "json", "jsonc", "julia", "kotlin", "latex", "ledger", "lua", "make" },
-    { "markdown", "nix", "ocaml", "perl", "php", "python", "query", "r" },
-    { "regex", "rego", "ruby", "rust", "scala", "scss", "solidity", "swift" },
-    { "teal", "toml", "tsx", "typescript", "vim", "vue", "yaml", "zig" },
+    { "markdown", "markdown_inline", "nix", "ocaml", "perl", "php", "python" },
+    { "query", "r", "regex", "rego", "ruby", "rust", "scala", "scss", "solidity" },
+    { "swift", "teal", "toml", "tsx", "typescript", "vim", "vue", "yaml", "zig" },
   }
   lvim.builtin.treesitter.ensure_installed = languages
   lvim.builtin.treesitter.highlight.disable = { "org" }
